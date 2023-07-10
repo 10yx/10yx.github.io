@@ -1,0 +1,39 @@
+---
+title: News
+date: 2023-07-18
+description: The Posts List display is controled in /src/_data/structure.js and ships with 4 options.
+layout: page
+eleventyNavigation:
+  key: main
+  title: News #  as it will appear in the nav
+  order: 3    # order to display in the nav
+seo:
+  title: News...
+  description: 
+pagination:
+  data: collections.post 
+  size: 12
+  reverse: true
+  alias: posts
+---
+
+<p>
+Welcome to our News section, your go-to destination for all things happening at 10yx. Stay up-to-date with the latest developments, innovations, and exciting news as we continue to grow and make strides in our industry. From product launches to company milestones, we'll keep you informed every step of the way. Get ready to embark on a journey of knowledge and inspiration, where we share our successes, challenges, and valuable insights. Join us as we shape the future together.
+</p>
+
+<hr class="mt-8">
+
+{% set postslist = posts | reverse %}
+
+{# 
+  Allows a user to easily change the Tag List Style.
+  Please see instructions in /src/_data/structure.js >>> ===== Post List Style Options =====
+#}
+{% set postlist = ['components/', structure.postListStyle, '.njk'] %}
+{% include postlist | join %}
+
+{# ===== Paginate based on "size" frontmatter value above =====  #}
+{# Don't even include the pagination component if there are fewer posts than needed to paginate  #}
+{% if collections.post.length > pagination.size %}
+  {% include "components/pagination.njk" %}
+{% endif %}
