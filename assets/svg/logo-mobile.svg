@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 2048 2048" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="Main-logo--old" vectornator:layerName="Main logo -old" visibility="hidden">
+<path d="M521.369 935.305L278.472 854.917L128.353 644.46L128.353 384.32L278.472 173.862L521.369 93.4746L764.266 173.862L914.385 384.32L914.385 644.46L764.266 854.917L521.369 935.305Z" fill="none" opacity="1" stroke="#000000" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="120"/>
+<path d="M620.171 681.821L742.388 845.058" fill="none" opacity="1" stroke="#000000" stroke-linecap="butt" stroke-linejoin="round" stroke-width="120" vectornator:layerName="Curve 2"/>
+<path d="M235.084 166.352L363.828 344.564L531.333 576.431" fill="none" opacity="1" stroke="#000000" stroke-linecap="butt" stroke-linejoin="round" stroke-width="120"/>
+<path d="M777.051 173.68L276.214 864.962" fill="none" opacity="1" stroke="#000000" stroke-linecap="butt" stroke-linejoin="round" stroke-width="120"/>
+<path d="M491.199 712.758C491.934 712.873 652.869 490.126 652.869 490.126" fill="none" opacity="0" stroke="#ffffff" stroke-linecap="butt" stroke-linejoin="round" stroke-width="50"/>
+<path d="M578.448 726.012L549.585 687.618L624.028 586.309L669.944 648.275L578.448 726.012Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="#000000" stroke-linecap="butt" stroke-linejoin="round" stroke-width="0.1" vectornator:layerName="Curve 3"/>
+</g>
+<clipPath id="ArtboardFrame">
+<rect height="2048" width="2048" x="0" y="0"/>
+</clipPath>
+<g clip-path="url(#ArtboardFrame)" id="logo-black" vectornator:layerName="logo black">
+<g opacity="1" vectornator:layerName="logo symbol 1">
+<path d="M1027.64 6.1542L393.8 201.926L4.06088 714.386L4.06088 1345.84L393.8 1858.3L1027.64 2054.08L1029.69 2054.08L1029.69 1785.37C1029.41 1785.46 1027.91 1785.29 1027.64 1785.37L732.258 1693.24L1029.69 1309.38L1029.69 869.851L1025.59 875.609L806.103 597.307L648.156 391.939L1027.64 274.86L1029.69 274.86L1029.69 6.1542L1027.64 6.1542ZM449.184 570.436C516.82 658.038 584.436 746.849 584.567 747.015L857.385 1094.41L500.466 1556.97L276.878 1263.31L276.878 796.917L449.184 570.436Z" fill="#2e2e2e" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 31"/>
+<path d="M1028.48 6.07636L1028.48 274.782L1401.81 389.942L1026.43 875.532L1026.43 1309.3L1602.84 564.601L1779.24 796.839L1779.24 1265.16L1559.76 1553.05L1262.33 1173.03L1090.02 1389.91L1334.12 1689.33C1212.21 1727.19 1073 1771.51 1028.48 1785.29L1028.48 2054L1662.32 1858.23L2052.06 1347.69L2052.06 714.308L1662.32 201.848L1028.48 6.07636Z" fill="#414141" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 30"/>
+</g>
+</g>
+<g clip-path="url(#ArtboardFrame)" id="Logo-white" vectornator:layerName="Logo white" visibility="hidden">
+<g opacity="1" vectornator:layerName="logo symbol">
+<path d="M1027.64 6.08325L393.8 201.855L4.06088 714.315L4.06088 1345.77L393.8 1858.23L1027.64 2054.01L1029.69 2054.01L1029.69 1785.3C1029.41 1785.39 1027.91 1785.22 1027.64 1785.3L732.258 1693.17L1029.69 1309.31L1029.69 869.781L1025.59 875.538L806.103 597.236L648.156 391.868L1027.64 274.789L1029.69 274.789L1029.69 6.08325L1027.64 6.08325ZM449.184 570.365C516.82 657.967 584.436 746.778 584.567 746.944L857.385 1094.34L500.466 1556.9L276.878 1263.24L276.878 796.846L449.184 570.365Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 31"/>
+<path d="M1028.48 6.00542L1028.48 274.711L1401.81 389.871L1026.43 875.461L1026.43 1309.23L1602.84 564.53L1779.24 796.768L1779.24 1265.08L1559.76 1552.98L1262.33 1172.96L1090.02 1389.84L1334.12 1689.26C1212.21 1727.12 1073 1771.44 1028.48 1785.22L1028.48 2053.93L1662.32 1858.16L2052.06 1347.62L2052.06 714.237L1662.32 201.777L1028.48 6.00542Z" fill="#e8e8e8" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 30"/>
+</g>
+</g>
+</svg>
