@@ -25,7 +25,7 @@ eleventyComputed:
   <div>
     {% for sites in author.companyWebsites %}
       {% if sites.url %}
-        <a class="block hover:underline" target="_blank" href="{{ sites.url | url }}" alt="sites.label website">{{ sites.label }} ↗️</a>
+          <a class="block hover:underline" target="_blank" rel="noopener noreferrer" href="{{ sites.url | url }}" alt="sites.label website">{{ sites.label }} ↗️</a>
       {% endif %}
     {% endfor %}
   </div>
@@ -34,7 +34,7 @@ eleventyComputed:
   <div>
     {% for sites in author.personalWebsites %}
       {% if sites.url %}
-        <a class="block hover:underline" target="_blank" href="{{ sites.url | url }}" alt="sites.label website">{{ sites.label }} ↗️</a>
+          <a class="block hover:underline" target="_blank" rel="noopener noreferrer" href="{{ sites.url | url }}" alt="sites.label website">{{ sites.label }} ↗️</a>
       {% endif %}
     {% endfor %}
   </div>
