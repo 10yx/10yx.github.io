@@ -38,6 +38,7 @@
     "tailwindcss": "^3.1.8"
   },
   "dependencies": {
-    "debug": "^4.3.4"    
+    "debug": "^4.3.4",
+    "lodash": ">=4.17.21"
   }
 }
