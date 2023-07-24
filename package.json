@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "debug": "^4.3.4",
+    "liquidjs": "^10.8.4",
     "lodash": ">=4.17.21"
   }
 }
