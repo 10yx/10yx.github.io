@@ -10,7 +10,7 @@ seo:
 
 Last Updated: 25 July 2023
 
-These Terms and Conditions ("Agreement") govern the use of our software, services, and digital products ("Products") provided by [10yx OÜ] ("Company"), a private limited company registered in Estonia. By accessing or using our Products, you agree to be bound by this Agreement. If you do not agree with any part of this Agreement, please do not use our Products.
+These Terms and Conditions ("Agreement") govern the use of our software, services, and digital products ("Products") provided by 10yx OÜ ("Company"), a private limited company registered in Estonia. By accessing or using our Products, you agree to be bound by this Agreement. If you do not agree with any part of this Agreement, please do not use our Products.
 
 ## 1. Prohibited Use
 ### 1.1 Commercial Use
@@ -55,15 +55,15 @@ The Company does not guarantee the accuracy of product descriptions or quality, 
 
 ## 11. Intellectual Property Notice
 ### 11.1 Ownership
-All intellectual property rights in and to the Products, including but not limited to software, designs, logos, trademarks, and copyrights, are owned by the Company.
-### 11.2 License
-By using our Products, users are granted a limited, non-exclusive, non-transferable license to use the Products solely for the purpose they are intended for. Users may not modify, reproduce, distribute, or create derivative works based on the Products without prior written permission from the Company.
+All intellectual property rights in and to the Products, including but not limited to software, designs, trademarks, and copyrights, are owned by the Company.
+### 11.2 Trademarks and Logos
+If Customer would like to use 10yx trademarks, Customer must abide by all of 10yx's trademark guidelines, including those on 10yx's [logos page](/logos).
+### 11.3 Usage of Images
+Users are prohibited from using any images found on our webpage for any purposes without prior written permission from the Company.
 
 ## 12. Confidentiality
 ### 12.1 Confidential Information
 Users acknowledge that during the course of using our Products, they may have access to confidential information of the Company. Users agree to keep this information confidential and not disclose it to any third parties without prior written consent from the Company.
-### 12.2 Exceptions
-The obligations of confidentiality do not apply to information that: (i) is or becomes publicly known without breach of this Agreement; (ii) is rightfully known to the user without restriction from a source other than the Company; (iii) is approved by the Company for disclosure without restriction in a written document; (iv) is independently developed by the user without access to the Company's confidential information; or (v) is required to be disclosed by law or court order.
 
 ## 13. Force Majeure
 The Company shall not be liable for any failure or delay in the performance of its obligations under this Agreement due to circumstances beyond its reasonable control, including but not limited to acts of God, natural disasters, strikes, lockouts, riots, acts of war, epidemics, or power, telecommunication, or network failures.
@@ -76,6 +76,9 @@ Users may revoke this permission by hiding their company's or organization's nam
 
 ## 15. Waiver of Right to Sue and Class Action
 By purchasing our products or viewing our website, users acknowledge and agree that they have signed the Terms and Conditions contract, and they waive any right to sue the Company or participate in a class action lawsuit against the Company.
+
+## 16. Usage of Images
+Users are prohibited from using any images found on our webpage for any purposes without prior written permission from the Company.
 
 Please carefully read and understand these Terms and Conditions before using our Products. By using our Products, you acknowledge that you have read, understood, and agreed to be bound by this Agreement. If you do not agree with any part of this Agreement, please do not use our Products.
 
