@@ -132,7 +132,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('src/assets/video/')
   eleventyConfig.addPassthroughCopy('CNAME')
   // Copy `src/js` to `_site/js`
-  eleventyConfig.addPassthroughCopy("src/js/");
+  eleventyConfig.addPassthroughCopy("src/js/")
   /**
    * Set custom markdown library instance...
    * and support for Emojis in markdown...
