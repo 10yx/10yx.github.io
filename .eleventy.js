@@ -123,6 +123,8 @@ module.exports = function (eleventyConfig) {
    * Passthrough File Copy
    * @link https://www.11ty.dev/docs/copy/
    */
+  // Copy `src/js` to `_site/js`
+  eleventyConfig.addPassthroughCopy("src/js/*.js")
   eleventyConfig.addPassthroughCopy('src/*.png')
   eleventyConfig.addPassthroughCopy('src/*.jpg')
   eleventyConfig.addPassthroughCopy('src/*.ico')
@@ -131,8 +133,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('src/assets/svg/')
   eleventyConfig.addPassthroughCopy('src/assets/video/')
   eleventyConfig.addPassthroughCopy('CNAME')
-  // Copy `src/js` to `_site/js`
-  eleventyConfig.addPassthroughCopy("src/js/")
+
   /**
    * Set custom markdown library instance...
    * and support for Emojis in markdown...
