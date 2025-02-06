@@ -17,8 +17,8 @@
     "dev:eleventy": "npx @11ty/eleventy --serve",
     "dev": "npm-run-all clean --parallel dev:*",
     "build:tailwind": "npx tailwindcss -i src/assets/css/tailwind.css -o dist/css/styles.css --minify",
-    "build:eleventy": "ELEVENTY_PRODUCTION=true npx @11ty/eleventy",
-    "build": "env NODE_ENV=production eleventy --serve"
+    "build": "ELEVENTY_PRODUCTION=true npx @11ty/eleventy",
+    "start": "env NODE_ENV=production eleventy --serve"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",
@@ -55,7 +55,6 @@
     "send": ">=0.19.0",
     "serve-static": ">=1.16.0",
     "cookie": ">=0.7.0",
-    "cross-spawn": ">=7.0.5",
-    "nanoid": ">=5.0.9"
+    "cross-spawn": ">=7.0.5"
   }
 }
