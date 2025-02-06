@@ -18,7 +18,7 @@
     "dev": "npm-run-all clean --parallel dev:*",
     "build:tailwind": "npx tailwindcss -i src/assets/css/tailwind.css -o dist/css/styles.css --minify",
     "build:eleventy": "ELEVENTY_PRODUCTION=true npx @11ty/eleventy",
-    "build": "env NODE_ENV=production npm-run-all clean build:*"
+    "build": "env NODE_ENV=production eleventy --serve"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",
@@ -29,8 +29,6 @@
     "alpinejs": "^3.10.4",
     "axios": "^0.28.0",
     "braces": "^3.0.3",
-    "cookie": ">=0.7.0",
-    "cross-spawn": ">=7.0.5",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.10",
     "eleventy-plugin-svg-sprite": "^2.4.2",
@@ -46,16 +44,18 @@
     "rimraf": "^3.0.2",
     "slugify": "^1.6.5",
     "tailwindcss": "^3.1.8",
-    "ws": "^8.17.1"
+    "ws": "^8.17.1",
+    "cookie": ">=0.7.0",
+    "cross-spawn": ">=7.0.5"
   },
   "dependencies": {
     "browser-sync": "^3.0.3",
-    "cookie": ">=0.7.0",
-    "cross-spawn": ">=7.0.5",
     "debug": "^4.3.4",
     "liquidjs": "^10.8.4",
-    "nanoid": ">=5.0.9",
     "send": ">=0.19.0",
-    "serve-static": ">=1.16.0"
+    "serve-static": ">=1.16.0",
+    "cookie": ">=0.7.0",
+    "cross-spawn": ">=7.0.5",
+    "nanoid": ">=5.0.9"
   }
 }
