@@ -13,9 +13,7 @@
   "scripts": {
     "clean": "rm -rfd dist",
     "debug": "set DEBUG=* & eleventy",
-    "dev:tailwind": "npx tailwindcss -i src/assets/css/tailwind.css -o dist/css/styles.css --watch",
-    "dev:eleventy": "npx @11ty/eleventy --serve",
-    "dev": "npm-run-all clean --parallel dev:*",
+    "dev": "npx tailwindcss -i src/assets/css/tailwind.css -o dist/css/styles.css --watch && npx @11ty/eleventy --serve",
     "build:tailwind": "npx tailwindcss -i src/assets/css/tailwind.css -o dist/css/styles.css --minify",
     "build": "ELEVENTY_PRODUCTION=true npx @11ty/eleventy",
     "start": "env NODE_ENV=production eleventy --serve"
