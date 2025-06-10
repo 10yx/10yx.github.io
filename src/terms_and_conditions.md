@@ -1,6 +1,6 @@
 ---
 title: Terms and Conditions
-date: 2023-07-25
+date: 2025-06-10
 layout: page
 seo:
   title: Terms and Conditions # overrides 'title' above on both Page and META
@@ -8,7 +8,7 @@ seo:
   image:
 ---
 
-Last Updated: 25 July 2023
+Last Updated: 10 June 2025
 
 These Terms and Conditions ("Agreement") govern the use of our software, services, and digital products ("Products") provided by 10yx OÜ ("Company"), a private limited company registered in Estonia. By accessing or using our Products, you agree to be bound by this Agreement. If you do not agree with any part of this Agreement, please do not use our Products.
 
@@ -82,4 +82,4 @@ Users are prohibited from using any images found on our webpage for any purposes
 
 Please carefully read and understand these Terms and Conditions before using our Products. By using our Products, you acknowledge that you have read, understood, and agreed to be bound by this Agreement. If you do not agree with any part of this Agreement, please do not use our Products.
 
-If you have any questions or concerns regarding these Terms and Conditions, please contact us at rs@10yx.co.
+If you have any questions or concerns regarding these Terms and Conditions, please contact us at info@10yx.co.
