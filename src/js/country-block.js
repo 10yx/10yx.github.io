@@ -1,4 +1,4 @@
-const blockedCountries = ['PK', 'CN']; // Add country codes here
+const blockedCountries = ['PK', 'CN', 'RU', 'BD', 'IN', 'TR', 'NP', 'RRO', 'AF', 'KP', 'IR']; // Add country codes here
 
 fetch('https://get.geojs.io/v1/ip/country.json')
   .then(response => response.json())
