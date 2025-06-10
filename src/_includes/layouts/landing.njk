@@ -11,38 +11,40 @@ tags: landing
     <link rel="alternate" type="application/atom+xml" title="RSS Feed for {{ meta.siteName }}" href="/feed.xml"/>
     {# Only include the Flickity js if this page uses a hero.carousel  #}
     {% if hero == "carousel" or product.carousel -%}
-      <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-      <link rel="stylesheet" href="https://unpkg.com/flickity-fullscreen@1/fullscreen.css">
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/flickity-fullscreen@1/fullscreen.css">
     {%- endif -%}
     {%- include "partials/head.njk" %}
     {% set prismOkaidia %}{% include "src/assets/css/prism-okaidia.css" %}{% endset -%}
     <style>
-      {{prismOkaidia | safe}}
+    body { display: none; }
+    {{prismOkaidia | safe}}
     </style>
   </head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2J0VPGHQ0C"></script>
   <script>
-   window.dataLayer = window.dataLayer || [];
-   function gtag(){dataLayer.push(arguments);}
-   gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-   gtag('config', 'G-2J0VPGHQ0C');
+  gtag('config', 'G-2J0VPGHQ0C');
   </script>
   <body class="{{ colors.siteTextCustom or siteTextDefault }}">
-    {% svgsprite %}
-    <div class="flex flex-col min-h-screen">
-      {% include "components/nav.njk" %}
+      <script src="/js/country-block.js"></script>
+      {% svgsprite %}
+      <div class="flex flex-col min-h-screen">
+          {% include "components/nav.njk" %}
 
-      {#  Allows a user to easily change the Hero type on the Home page...or any page.
-          See /src/home.md for how to use. 
-      #}
-      {% if hero %}
-        {% set heroComponent = ['components/hero-', hero, '.njk'] %}
-        {% include heroComponent | join %}
-      {% endif %}
+          {#  Allows a user to easily change the Hero type on the Home page...or any page.
+          See /src/home.md for how to use.
+          #}
+          {% if hero %}
+          {% set heroComponent = ['components/hero-', hero, '.njk'] %}
+          {% include heroComponent | join %}
+          {% endif %}
 
-      {# If any frontmatter includes images.feature, insert it at the top of the page, 
+          {# If any frontmatter includes images.feature, insert it at the top of the page,
       below the nav and outside the default wrapper below. #}
       {% if images.feature %}
         <figure class="w-screen {{ images.height or "h-48 md:h-1/3" }}">
