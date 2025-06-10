@@ -1,6 +1,6 @@
 ---
 title: Privacy Policy
-date: 2023-07-14
+date: 2025-06-10
 layout: page
 seo:
   title: Privacy Policy # overrides 'title' above on both Page and META
@@ -14,9 +14,9 @@ seo:
 
 <!-- {% endwrap %} -->
 
-Last updated: July 11, 2023
+Last updated: June 10, 2025
 
-This Privacy Policy describes how *10yx OÜ* ("we," "us," or "our") collects, uses, and shares information from users ("you" or "your") of our website and software services. We are committed to protecting your privacy and ensuring the security of your personal information. 
+This Privacy Policy describes how *10yx OÜ* ("we," "us," or "our") collects, uses, and shares information from users ("you" or "your") of our website and software services. We are committed to protecting your privacy and ensuring the security of your personal information.
 
 ## 1. Information We Collect
 We may collect the following information from you:
@@ -49,7 +49,7 @@ You have the right to access, update, or delete your personal information held b
 If you have any questions or concerns about our Privacy Policy or the handling of your personal information, please contact us at:
 
 - *10yx OÜ*
-- Harju maakond, Tallinn, Kesklinna linnaosa, Sakala tn 7-2, 10141
-- Email: rs@10yx.co
+- Sakala tn 7-2, Kesklinna linnaosa, Tallinn, Harju maakond, 10141
+- Email: info@10yx.co
 
 Please note that the information we collect and process may change over time as we continue to develop our software services. We will update this Privacy Policy accordingly and notify you of any significant changes.
