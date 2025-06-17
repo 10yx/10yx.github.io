@@ -8,20 +8,24 @@ eleventyNavigation:
   order: 3
 seo:
   title: Contact 10yx OÜ
-  description: Get in touch with 10yx for support, inquiries, or feedback. Find our official contact email and mailing address.
-  image:
+  description: Official contact information for 10yx OÜ.
+image:
 ---
 
 For support, feedback, or inquiries regarding our products and services, please use the contact information provided below.
+<br>
 
 ### Email
 
-**[info@10yx.co](mailto:info@10yx.co)**
+<a href="mailto:info@10yx.co" class="text-lg no-underline font-semibold">
+  info@10yx.co
+</a><br><br>
 
 ### Mailing Address
 
-**10yx OÜ**
-Sakala tn 7-2
-Kesklinna linnaosa, Tallinn
-Harju maakond, 10141
+<address>
+Sakala tn 7-2<br>
+Kesklinna linnaosa, Tallinn<br>
+Harju maakond, 10141<br>
 Estonia
+</address>
