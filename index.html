@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10YX - 10 Years Ahead</title>
+    <meta name="description" content="Empowering individuals and businesses through innovative technology solutions to unlock their full potential.">
+    <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1MN5PX6T1T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1MN5PX6T1T');
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            background: #000;
+            color: #fff;
+        }
+
+        .container {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        #three-canvas {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+            background-image:
+                linear-gradient(rgba(0,255,255,0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,255,0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: gridMove 15s linear infinite;
+        }
+
+        @keyframes gridMove {
+            from { transform: translate(0, 0); }
+            to { transform: translate(40px, 40px); }
+        }
+
+        .hud-top-left, .hud-top-right {
+            position: absolute;
+            top: 24px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: rgba(0,255,255,1);
+            z-index: 10;
+        }
+
+        .hud-top-left { left: 24px; max-width: 320px; }
+        .hud-top-right { right: 24px; text-align: right; }
+
+        .hud-panel {
+            border: 1px solid rgba(0,255,255,0.3);
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(0,255,255,1);
+            border-radius: 50%;
+            animation: pulse 1s ease-in-out infinite;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .neural-bars {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 10;
+        }
+
+        .neural-bars.left { left: 24px; }
+        .neural-bars.right { right: 24px; }
+
+        .bar {
+            width: 4px;
+            background: linear-gradient(to top, rgba(0,255,255,1), rgba(147,51,234,1));
+            border-radius: 2px;
+            transition: all 0.1s;
+        }
+
+        .corner {
+            position: absolute;
+            width: 128px;
+            height: 128px;
+            z-index: 10;
+        }
+
+        .corner.top-left {
+            top: 24px;
+            left: 24px;
+            border-left: 2px solid rgba(0,255,255,0.4);
+            border-top: 2px solid rgba(0,255,255,0.4);
+        }
+
+        .corner.top-right {
+            top: 24px;
+            right: 24px;
+            border-right: 2px solid rgba(0,255,255,0.4);
+            border-top: 2px solid rgba(0,255,255,0.4);
+        }
+
+        .corner.bottom-left {
+            bottom: 24px;
+            left: 24px;
+            border-left: 2px solid rgba(0,255,255,0.4);
+            border-bottom: 2px solid rgba(0,255,255,0.4);
+        }
+
+        .corner.bottom-right {
+            bottom: 24px;
+            right: 24px;
+            border-right: 2px solid rgba(0,255,255,0.4);
+            border-bottom: 2px solid rgba(0,255,255,0.4);
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .logo-container {
+            position: relative;
+            margin-bottom: 32px;
+            cursor: pointer;
+        }
+
+        .logo-glow {
+            position: absolute;
+            inset: 0;
+            filter: blur(48px);
+            background: rgba(0,255,255,0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .logo {
+            position: relative;
+            font-size: 144px;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            margin: 0;
+            background: linear-gradient(to right, rgba(0,255,255,1), rgba(59,130,246,1), rgba(147,51,234,1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .tagline-main {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, rgba(0,255,255,1), rgba(59,130,246,1), rgba(147,51,234,1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline-sub {
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            color: rgba(156,163,175,1);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .feature-card {
+            position: relative;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,255,255,0.2);
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            overflow: hidden;
+            animation: float 3s ease-in-out infinite alternate;
+            transition: all 0.5s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(0,255,255,0.8);
+            background: rgba(0,64,64,0.3);
+        }
+
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: rgba(0,255,255,1);
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: rgba(156,163,175,1);
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 64px;
+        }
+
+        .btn {
+            position: relative;
+            padding: 20px 40px;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, rgba(0,255,255,1), rgba(59,130,246,1));
+            border: none;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0,255,255,0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(0,255,255,1);
+            color: rgba(0,255,255,1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0,255,255,1);
+            color: #000;
+        }
+
+        .stats {
+            display: flex;
+            gap: 48px;
+            text-align: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-card {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .stat-panel {
+            border: 1px solid rgba(0,255,255,0.3);
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            padding: 16px;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .stat-card:hover .stat-panel {
+            border-color: rgba(0,255,255,0.8);
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: rgba(0,255,255,1);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            color: rgba(107,114,128,1);
+            text-transform: uppercase;
+        }
+
+        .data-packets {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .data-packet {
+            position: absolute;
+            width: 2px;
+            height: 32px;
+            background: linear-gradient(to bottom, rgba(0,255,255,0.8), transparent);
+            animation: dataFall 2s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes dataFall {
+            from {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 72px;
+            }
+
+            .tagline-main {
+                font-size: 32px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .hud-top-left, .hud-top-right {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="three-canvas"></canvas>
+
+        <div class="grid-overlay"></div>
+
+        <!-- HUD Elements -->
+        <div class="hud-top-left">
+            <div class="hud-panel">
+                <div><span class="pulse-dot"></span>SYS.NEURAL.ACTIVE</div>
+                <div>QUANTUM_STATE: SYNCHRONIZED</div>
+                <div>TARGET_LOCK: <span id="target-status">SCANNING</span></div>
+            </div>
+        </div>
+
+        <div class="hud-top-right">
+            <div id="current-time"></div>
+            <div>PROTOCOL: AI_CORE_v10.0</div>
+            <div>NEURAL_NET: <span class="pulse-dot"></span>ACTIVE</div>
+        </div>
+
+        <!-- Neural Activity Bars -->
+        <div class="neural-bars left" id="neural-left"></div>
+        <div class="neural-bars right" id="neural-right"></div>
+
+        <!-- Corner Brackets -->
+        <div class="corner top-left"></div>
+        <div class="corner top-right"></div>
+        <div class="corner bottom-left"></div>
+        <div class="corner bottom-right"></div>
+
+        <!-- Data Packets -->
+        <div class="data-packets" id="data-packets"></div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Logo -->
+            <div class="logo-container" id="logo-container">
+                <div class="logo-glow"></div>
+                <h1 class="logo">10YX</h1>
+            </div>
+
+            <!-- Tagline -->
+            <div class="tagline">
+                <p class="tagline-main">10 YEARS AHEAD</p>
+                <p class="tagline-sub">BUILDING • THE • IMPOSSIBLE</p>
+            </div>
+
+            <!-- Feature Cards -->
+            <div class="features">
+                <div class="feature-card">
+                    <div class="card-icon">⚡</div>
+                    <h3 class="card-title">QUANTUM LEAP</h3>
+                    <p class="card-desc">10X velocity, infinite scale</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="card-icon">🧠</div>
+                    <h3 class="card-title">NEURAL CORE</h3>
+                    <p class="card-desc">AI beyond comprehension</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">FUTURE STACK</h3>
+                    <p class="card-desc">Technology from 2035</p>
+                </div>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="cta-buttons">
+                <a href="/about.html" class="btn btn-primary" id="init-btn">
+                    🎯 INITIALIZE →
+                </a>
+
+                <a href="/contact.html" class="btn btn-secondary">
+                    💻 CONTACT US
+                </a>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-panel">
+                        <div class="stat-value">10X</div>
+                        <div class="stat-label">PERFORMANCE</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-panel">
+                        <div class="stat-value">∞</div>
+                        <div class="stat-label">SCALE</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-panel">
+                        <div class="stat-value">2035</div>
+                        <div class="stat-label">TECH YEAR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Three.js Setup
+        const canvas = document.getElementById('three-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            alpha: true,
+            antialias: true
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        camera.position.z = 5;
+
+        // Create floating geometric shapes
+        const shapes = [];
+        const geometries = [
+            new THREE.IcosahedronGeometry(1.5, 0),
+            new THREE.OctahedronGeometry(1, 0),
+            new THREE.TorusGeometry(0.8, 0.3, 16, 100)
+        ];
+
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x00ffff,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.12
+        });
+
+        geometries.forEach((geo, i) => {
+            const shape = new THREE.Mesh(geo, material);
+            shape.position.set((i - 1) * 3, Math.sin(i) * 2, -2 - i);
+            shapes.push(shape);
+            scene.add(shape);
+        });
+
+        let mouseX = 0, mouseY = 0;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            shapes.forEach((shape, i) => {
+                shape.rotation.x += 0.003 + i * 0.001;
+                shape.rotation.y += 0.005 + i * 0.001;
+                shape.rotation.z += 0.002;
+            });
+
+            camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.05;
+            camera.position.y += (mouseY * 1.5 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Update time
+        function updateTime() {
+            document.getElementById('current-time').textContent = new Date().toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Neural activity bars
+        function createNeuralBars() {
+            const leftBars = document.getElementById('neural-left');
+            const rightBars = document.getElementById('neural-right');
+
+            for (let i = 0; i < 15; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                leftBars.appendChild(bar);
+            }
+
+            for (let i = 0; i < 5; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                rightBars.appendChild(bar);
+            }
+        }
+        createNeuralBars();
+
+        function updateNeuralActivity() {
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach(bar => {
+                const height = 20 + Math.random() * 80;
+                bar.style.height = `${height * 0.6}px`;
+                bar.style.opacity = 0.3 + (height / 150);
+            });
+        }
+        setInterval(updateNeuralActivity, 100);
+
+        // Data packets
+        function createDataPacket() {
+            const container = document.getElementById('data-packets');
+            const packet = document.createElement('div');
+            packet.className = 'data-packet';
+            packet.style.left = `${Math.random() * 100}%`;
+            packet.style.animationDelay = `${Math.random() * 2}s`;
+            container.appendChild(packet);
+
+            setTimeout(() => packet.remove(), 2000 + Math.random() * 2000);
+        }
+        setInterval(createDataPacket, 300);
+
+        // Target lock toggle
+        let targetLocked = false;
+        document.getElementById('logo-container').addEventListener('click', () => {
+            targetLocked = !targetLocked;
+            document.getElementById('target-status').textContent = targetLocked ? 'ENGAGED' : 'SCANNING';
+            document.getElementById('init-btn').innerHTML = targetLocked ? '🎯 SYSTEM LOCKED →' : '🎯 INITIALIZE →';
+        });
+    </script>
+</body>
+</html>
