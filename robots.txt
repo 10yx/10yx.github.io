@@ -24,15 +24,3 @@ Disallow: /
 
 User-agent: PiplBot
 Disallow: /
-```
-
-### **CNAME** (if you have a custom domain)
-```
-10yx.co
-```
-
-### **.gitignore**
-```
-.DS_Store
-node_modules/
-*.log
