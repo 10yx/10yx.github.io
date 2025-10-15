@@ -1,526 +1,979 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10YX - 10 Years Ahead</title>
-    <meta name="description" content="Empowering individuals and businesses through innovative technology solutions to unlock their full potential.">
-    <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>10YX - 10 Years Ahead</title>
+        <meta name="description" content="Empowering individuals and businesses through innovative technology solutions to unlock their full potential.">
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1MN5PX6T1T"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-1MN5PX6T1T');
-    </script>
+        <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-1MN5PX6T1T"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1MN5PX6T1T');
+        </script>
 
-    <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        overflow-x: hidden;
-        background: #000;
-        color: #fff;
-    }
-
-    .container {
-        position: relative;
-        min-height: 100vh;
-        overflow: hidden;
-    }
-
-    #three-canvas {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-    }
-
-    .grid-overlay {
-        position: absolute;
-        inset: 0;
-        opacity: 0.1;
-        background-image:
-            linear-gradient(rgba(0,255,255,0.2) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,255,255,0.2) 1px, transparent 1px);
-        background-size: 40px 40px;
-        animation: gridMove 15s linear infinite;
-    }
-
-    @keyframes gridMove {
-        from { transform: translate(0, 0); }
-        to { transform: translate(40px, 40px); }
-    }
-
-    .hud-top-left, .hud-top-right {
-        position: absolute;
-        top: 24px;
-        font-family: 'Courier New', monospace;
-        font-size: 12px;
-        color: rgba(0,255,255,1);
-        z-index: 10;
-    }
-
-    .hud-top-left { left: 24px; max-width: 320px; }
-    .hud-top-right { right: 24px; text-align: right; }
-
-    .hud-panel {
-        border: 1px solid rgba(0,255,255,0.3);
-        background: rgba(0,0,0,0.7);
-        backdrop-filter: blur(4px);
-        padding: 12px;
-        border-radius: 4px;
-        margin-bottom: 12px;
-    }
-
-    .pulse-dot {
-        width: 8px;
-        height: 8px;
-        background: rgba(0,255,255,1);
-        border-radius: 50%;
-        animation: pulse 1s ease-in-out infinite;
-        display: inline-block;
-        margin-right: 8px;
-    }
-
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-    }
-
-    .neural-bars {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        z-index: 10;
-    }
-
-    .neural-bars.left { left: 24px; }
-    .neural-bars.right { right: 24px; }
-
-    .bar {
-        width: 4px;
-        background: linear-gradient(to top, rgba(0,255,255,1), rgba(147,51,234,1));
-        border-radius: 2px;
-        transition: all 0.1s;
-    }
-
-    .corner {
-        position: absolute;
-        width: 128px;
-        height: 128px;
-        z-index: 10;
-    }
-
-    .corner.top-left {
-        top: 24px;
-        left: 24px;
-        border-left: 2px solid rgba(0,255,255,0.4);
-        border-top: 2px solid rgba(0,255,255,0.4);
-    }
-
-    .corner.top-right {
-        top: 24px;
-        right: 24px;
-        border-right: 2px solid rgba(0,255,255,0.4);
-        border-top: 2px solid rgba(0,255,255,0.4);
-    }
-
-    .corner.bottom-left {
-        bottom: 24px;
-        left: 24px;
-        border-left: 2px solid rgba(0,255,255,0.4);
-        border-bottom: 2px solid rgba(0,255,255,0.4);
-    }
-
-    .corner.bottom-right {
-        bottom: 24px;
-        right: 24px;
-        border-right: 2px solid rgba(0,255,255,0.4);
-        border-bottom: 2px solid rgba(0,255,255,0.4);
-    }
-
-    .content {
-        position: relative;
-        z-index: 10;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-    }
-
-    .logo-container {
-        position: relative;
-        margin-bottom: 32px;
-        cursor: pointer;
-    }
-
-    .logo-glow {
-        position: absolute;
-        inset: 0;
-        filter: blur(48px);
-        background: rgba(0,255,255,0.4);
-        animation: pulse 2s ease-in-out infinite;
-    }
-
-    .logo {
-        position: relative;
-        font-size: 144px;
-        font-weight: 900;
-        letter-spacing: -0.05em;
-        margin: 0;
-        background: linear-gradient(to right, rgba(0,255,255,1), rgba(59,130,246,1), rgba(147,51,234,1));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .tagline {
-        margin-bottom: 48px;
-        text-align: center;
-    }
-
-    .tagline-main {
-        font-size: 48px;
-        font-weight: 300;
-        letter-spacing: 0.1em;
-        margin-bottom: 12px;
-        background: linear-gradient(to right, rgba(0,255,255,1), rgba(59,130,246,1), rgba(147,51,234,1));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .tagline-sub {
-        font-size: 18px;
-        font-family: 'Courier New', monospace;
-        color: rgba(156,163,175,1);
-    }
-
-    .features {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 24px;
-        margin-bottom: 48px;
-        max-width: 1200px;
-        width: 100%;
-    }
-
-    .feature-card {
-        position: relative;
-        padding: 24px;
-        border-radius: 12px;
-        border: 1px solid rgba(0,255,255,0.2);
-        background: rgba(0,0,0,0.4);
-        backdrop-filter: blur(8px);
-        cursor: pointer;
-        overflow: hidden;
-        animation: float 3s ease-in-out infinite alternate;
-        transition: all 0.5s;
-    }
-
-    .feature-card:hover {
-        border-color: rgba(0,255,255,0.8);
-        background: rgba(0,64,64,0.3);
-    }
-
-    @keyframes float {
-        from { transform: translateY(0); }
-        to { transform: translateY(-10px); }
-    }
-
-    .card-icon {
-        font-size: 48px;
-        margin-bottom: 16px;
-    }
-
-    .card-title {
-        font-size: 20px;
-        font-weight: 700;
-        font-family: 'Courier New', monospace;
-        color: rgba(0,255,255,1);
-        margin-bottom: 8px;
-        letter-spacing: 0.05em;
-    }
-
-    .card-desc {
-        font-size: 14px;
-        color: rgba(156,163,175,1);
-        line-height: 1.6;
-    }
-
-    .cta-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        margin-bottom: 64px;
-    }
-
-    .btn {
-        position: relative;
-        padding: 20px 40px;
-        border-radius: 9999px;
-        font-weight: 700;
-        font-size: 18px;
-        cursor: pointer;
-        transition: all 0.3s;
-        overflow: hidden;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .btn-primary {
-        background: linear-gradient(to right, rgba(0,255,255,1), rgba(59,130,246,1));
-        border: none;
-        color: #fff;
-    }
-
-    .btn-primary:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 40px rgba(0,255,255,0.5);
-    }
-
-    .btn-secondary {
-        background: transparent;
-        border: 2px solid rgba(0,255,255,1);
-        color: rgba(0,255,255,1);
-    }
-
-    .btn-secondary:hover {
-        background: rgba(0,255,255,1);
-        color: #000;
-    }
-
-    .stats {
-        display: flex;
-        gap: 48px;
-        text-align: center;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .stat-card {
-        position: relative;
-        cursor: pointer;
-    }
-
-    .stat-panel {
-        border: 1px solid rgba(0,255,255,0.3);
-        background: rgba(0,0,0,0.7);
-        backdrop-filter: blur(4px);
-        padding: 16px;
-        border-radius: 8px;
-        transition: border-color 0.3s;
-    }
-
-    .stat-card:hover .stat-panel {
-        border-color: rgba(0,255,255,0.8);
-    }
-
-    .stat-value {
-        font-size: 48px;
-        font-weight: 700;
-        font-family: 'Courier New', monospace;
-        color: rgba(0,255,255,1);
-        margin-bottom: 4px;
-    }
-
-    .stat-label {
-        font-size: 10px;
-        letter-spacing: 0.2em;
-        color: rgba(107,114,128,1);
-        text-transform: uppercase;
-    }
-
-    .data-packets {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        overflow: hidden;
-    }
-
-    .data-packet {
-        position: absolute;
-        width: 2px;
-        height: 32px;
-        background: linear-gradient(to bottom, rgba(0,255,255,0.8), transparent);
-        animation: dataFall 2s linear infinite;
-        opacity: 0.6;
-    }
-
-    @keyframes dataFall {
-        from {
-            transform: translateY(-100vh);
-            opacity: 0;
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        10% { opacity: 0.8; }
-        90% { opacity: 0.8; }
-        to {
-            transform: translateY(100vh);
-            opacity: 0;
-        }
-    }
 
-    @media (max-width: 768px) {
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            background: #000;
+            color: #fff;
+            animation: pageGlitch 8s infinite;
+        }
+
+        @keyframes pageGlitch {
+            0%, 95%, 100% { filter: none; }
+            96% { filter: hue-rotate(5deg) saturate(1.2); }
+            97% { filter: hue-rotate(-5deg) saturate(0.8); }
+            98% { filter: hue-rotate(3deg) saturate(1.1); }
+        }
+
+        .container {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        #three-canvas {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            filter: drop-shadow(0 0 40px rgba(0,255,255,0.3));
+            animation: canvasGlitch 12s infinite;
+        }
+
+        @keyframes canvasGlitch {
+            0%, 94%, 100% { transform: translate(0, 0); }
+            95% { transform: translate(-2px, 2px); }
+            96% { transform: translate(2px, -2px); }
+            97% { transform: translate(-1px, 1px); }
+        }
+
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            opacity: 0.08;
+            background-image:
+                linear-gradient(rgba(0,255,255,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,255,0.3) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            from { transform: translate(0, 0); }
+            to { transform: translate(60px, 60px); }
+        }
+
+        /* Clarke Quote Hovering Around Tagline */
+        .floating-quotes {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .quote-word {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            color: rgba(0, 255, 255, 0.04);
+            white-space: nowrap;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        /* Tagline Transformation States */
+        .tagline {
+            margin-bottom: 48px;
+            text-align: center;
+            position: relative;
+            transition: all 0.6s ease;
+        }
+
+        .tagline.transforming .tagline-main,
+        .tagline.transforming .tagline-sub {
+            filter: blur(8px);
+            opacity: 0.1;
+        }
+
+        .clarke-quote-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            line-height: 1.8;
+            letter-spacing: 0.15em;
+            color: rgba(0, 255, 255, 0.35);
+            text-shadow:
+                0 0 8px rgba(0, 255, 255, 0.3),
+                0 0 15px rgba(0, 255, 255, 0.15);
+            padding: 0 2rem;
+            font-weight: 300;
+        }
+
+        .alien-text {
+            display: inline-block;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        .clarke-quote-overlay.visible {
+            animation: alienTextGlitchIn 1.2s forwards;
+        }
+
+        /* Alien Text Glitch Effects */
+        @keyframes alienTextGlitchIn {
+            0% {
+                opacity: 0;
+                filter: blur(10px) brightness(0);
+                transform: translate(-50%, -50%) scaleY(0.05) scaleX(1.5);
+                letter-spacing: 0.5em;
+                text-shadow: 0 0 0 transparent;
+            }
+            3% {
+                opacity: 0.8;
+                filter: blur(0px) brightness(3);
+                transform: translate(-50%, -50%) scaleY(0.1) scaleX(1.3);
+            }
+            8% {
+                filter: blur(8px) brightness(0.3);
+                transform: translate(-48%, -50%) scaleY(1.8) scaleX(0.7);
+                letter-spacing: 0.3em;
+                text-shadow:
+                    -15px 0 30px rgba(255, 0, 255, 0.8),
+                    15px 0 30px rgba(0, 255, 0, 0.8);
+            }
+            12% {
+                filter: blur(0px) brightness(2);
+                transform: translate(-52%, -50%) scaleY(0.85) scaleX(1.2);
+                text-shadow:
+                    8px 0 15px rgba(255, 0, 255, 0.6),
+                    -8px 0 15px rgba(0, 255, 0, 0.6);
+            }
+            16% {
+                transform: translate(-50%, -52%) scaleY(1.1) scaleX(0.9);
+                filter: blur(4px) brightness(1.5);
+                letter-spacing: 0.2em;
+            }
+            20% {
+                transform: translate(-50%, -48%) scaleY(0.95) scaleX(1.05);
+                filter: blur(2px) brightness(1);
+            }
+            25% {
+                transform: translate(-50%, -50%) scaleY(1) scaleX(1);
+                filter: blur(0px) brightness(0.8);
+                letter-spacing: 0.15em;
+                text-shadow:
+                    -4px 0 8px rgba(255, 0, 255, 0.4),
+                    4px 0 8px rgba(0, 255, 0, 0.4);
+            }
+            30% {
+                filter: brightness(0.2);
+            }
+            32% {
+                filter: brightness(1.2);
+            }
+            35% {
+                filter: brightness(0.6);
+            }
+            38% {
+                filter: brightness(0.9);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0px) brightness(0.8);
+                transform: translate(-50%, -50%) scaleY(1) scaleX(1);
+                letter-spacing: 0.15em;
+                text-shadow:
+                    0 0 8px rgba(0, 255, 255, 0.3),
+                    0 0 15px rgba(0, 255, 255, 0.15),
+                    -2px 0 4px rgba(255, 0, 255, 0.2),
+                    2px 0 4px rgba(0, 255, 0, 0.2);
+            }
+        }
+
+        @keyframes alienTextGlitchOut {
+            0% {
+                opacity: 1;
+                filter: blur(0px) brightness(0.8);
+                transform: translate(-50%, -50%) scaleY(1) scaleX(1);
+                letter-spacing: 0.15em;
+            }
+            15% {
+                filter: blur(2px) brightness(1.5);
+                text-shadow:
+                    -6px 0 12px rgba(255, 0, 255, 0.6),
+                    6px 0 12px rgba(0, 255, 0, 0.6);
+            }
+            30% {
+                filter: blur(6px) brightness(0.4);
+                transform: translate(-50%, -50%) scaleY(1.6) scaleX(0.8);
+                letter-spacing: 0.3em;
+            }
+            50% {
+                filter: blur(0px) brightness(2.5);
+                transform: translate(-50%, -50%) scaleY(0.1) scaleX(1.4);
+                letter-spacing: 0.5em;
+            }
+            70% {
+                opacity: 0.4;
+                filter: blur(12px) brightness(0.1);
+                transform: translate(-50%, -50%) scaleY(0.05) scaleX(1.6);
+            }
+            100% {
+                opacity: 0;
+                filter: blur(20px) brightness(0);
+                transform: translate(-50%, -50%) scaleY(0.01) scaleX(2);
+                letter-spacing: 0.8em;
+            }
+        }
+
+        /* Scanline overlay during transformation */
+        .tagline::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15) 0px,
+                rgba(0, 255, 255, 0.05) 1px,
+                rgba(0, 0, 0, 0.15) 2px
+            );
+            opacity: 0;
+            pointer-events: none;
+            z-index: 2;
+            transition: opacity 0.3s;
+        }
+
+        .tagline.transforming::before {
+            opacity: 1;
+            animation: scanlineMove 0.1s linear infinite;
+        }
+
+        @keyframes scanlineMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(2px); }
+        }
+
+        /* Digital noise overlay */
+        .tagline::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /></filter><rect width="200" height="200" filter="url(%23noise)" opacity="0.3"/></svg>');
+            opacity: 0;
+            pointer-events: none;
+            z-index: 2;
+            mix-blend-mode: overlay;
+        }
+
+        .tagline.transforming::after {
+            opacity: 0.4;
+            animation: noiseFlicker 0.05s infinite;
+        }
+
+        @keyframes noiseFlicker {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.2; }
+        }
+
+        /* Alien Tech HUD Elements */
+        .hud-top-left, .hud-top-right {
+            position: absolute;
+            top: 24px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: rgba(0,255,255,0.9);
+            z-index: 10;
+            animation: hudGlitch 10s infinite;
+        }
+
+        @keyframes hudGlitch {
+            0%, 92%, 100% { transform: translate(0, 0); }
+            93% { transform: translate(-1px, 1px); }
+            94% { transform: translate(1px, -1px); }
+        }
+
+        .hud-top-left { left: 24px; max-width: 320px; }
+        .hud-top-right { right: 24px; text-align: right; }
+
+        .hud-panel {
+            position: relative;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            padding: 16px;
+            margin-bottom: 12px;
+            clip-path: polygon(
+                0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px,
+                100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px)
+            );
+        }
+
+        .hud-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0,255,255,0.2), transparent 50%, rgba(147,51,234,0.2));
+            clip-path: polygon(
+                0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px,
+                100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px)
+            );
+            animation: panelPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes panelPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .hud-panel::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                rgba(0,255,255,0.4) 0deg,
+                transparent 90deg,
+                rgba(147,51,234,0.4) 180deg,
+                transparent 270deg,
+                rgba(0,255,255,0.4) 360deg
+            );
+            clip-path: polygon(
+                0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px,
+                100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px)
+            );
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            padding: 2px;
+            animation: rotateBorder 8s linear infinite;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hud-panel > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(0,255,255,1);
+            border-radius: 50%;
+            animation: alienPulse 1.5s ease-in-out infinite;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 8px rgba(0,255,255,0.8), 0 0 16px rgba(0,255,255,0.4);
+        }
+
+        @keyframes alienPulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+                box-shadow: 0 0 8px rgba(0,255,255,0.8), 0 0 16px rgba(0,255,255,0.4);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.85);
+                box-shadow: 0 0 4px rgba(0,255,255,0.4), 0 0 8px rgba(0,255,255,0.2);
+            }
+        }
+
+        .neural-bars {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .neural-bars.left { left: 24px; }
+        .neural-bars.right { right: 24px; }
+
+        .bar {
+            width: 3px;
+            background: linear-gradient(to top, rgba(0,255,255,0.8), rgba(147,51,234,0.8));
+            border-radius: 2px;
+            transition: all 0.15s;
+            box-shadow: 0 0 6px rgba(0,255,255,0.6);
+            animation: barGlitch 6s infinite;
+        }
+
+        @keyframes barGlitch {
+            0%, 96%, 100% { opacity: 1; }
+            97% { opacity: 0.3; }
+            98% { opacity: 1; }
+        }
+
+        .corner {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            z-index: 10;
+            opacity: 0.6;
+        }
+
+        .corner::before,
+        .corner::after {
+            content: '';
+            position: absolute;
+            background: linear-gradient(135deg, rgba(0,255,255,0.6), rgba(147,51,234,0.4));
+            animation: cornerPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes cornerPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .corner.top-left::before {
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 40px;
+        }
+
+        .corner.top-left::after {
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+        }
+
+        .corner.top-right::before {
+            top: 0;
+            right: 0;
+            width: 2px;
+            height: 40px;
+        }
+
+        .corner.top-right::after {
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 2px;
+        }
+
+        .corner.bottom-left::before {
+            bottom: 0;
+            left: 0;
+            width: 2px;
+            height: 40px;
+        }
+
+        .corner.bottom-left::after {
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+        }
+
+        .corner.bottom-right::before {
+            bottom: 0;
+            right: 0;
+            width: 2px;
+            height: 40px;
+        }
+
+        .corner.bottom-right::after {
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 2px;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .logo-container {
+            position: relative;
+            margin-bottom: 32px;
+            cursor: pointer;
+        }
+
+        .logo-glow {
+            position: absolute;
+            inset: 0;
+            filter: blur(48px);
+            background: rgba(0,255,255,0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         .logo {
-            font-size: 72px;
+            position: relative;
+            font-size: 144px;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            margin: 0;
+            background: linear-gradient(to right, rgba(0,255,255,1), rgba(59,130,246,1), rgba(147,51,234,1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: logoGlitch 15s infinite;
+            text-shadow: 0 0 40px rgba(0,255,255,0.3);
+        }
+
+        @keyframes logoGlitch {
+            0%, 94%, 100% {
+                filter: none;
+                transform: translate(0, 0);
+            }
+            95% {
+                filter: hue-rotate(90deg) saturate(2);
+                transform: translate(-3px, 3px);
+            }
+            96% {
+                filter: hue-rotate(-90deg) saturate(2);
+                transform: translate(3px, -3px);
+            }
+            97% {
+                filter: hue-rotate(45deg);
+                transform: translate(-2px, 2px);
+            }
+        }
+
+        .tagline {
+            margin-bottom: 48px;
+            text-align: center;
         }
 
         .tagline-main {
-            font-size: 32px;
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, rgba(0,255,255,1), rgba(59,130,246,1), rgba(147,51,234,1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline-sub {
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            color: rgba(156,163,175,1);
         }
 
         .features {
-            grid-template-columns: 1fr;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .feature-card {
+            position: relative;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,255,255,0.2);
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            overflow: hidden;
+            animation: float 3s ease-in-out infinite alternate;
+            transition: all 0.5s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(0,255,255,0.8);
+            background: rgba(0,64,64,0.3);
+        }
+
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: rgba(0,255,255,1);
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: rgba(156,163,175,1);
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 64px;
+        }
+
+        .btn {
+            position: relative;
+            padding: 20px 40px;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, rgba(0,255,255,1), rgba(59,130,246,1));
+            border: none;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0,255,255,0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(0,255,255,1);
+            color: rgba(0,255,255,1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0,255,255,1);
+            color: #000;
         }
 
         .stats {
-            flex-direction: column;
-            gap: 24px;
+            display: flex;
+            gap: 48px;
+            text-align: center;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .hud-top-left, .hud-top-right {
+        .stat-card {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .stat-panel {
+            border: 1px solid rgba(0,255,255,0.3);
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            padding: 16px;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .stat-card:hover .stat-panel {
+            border-color: rgba(0,255,255,0.8);
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: rgba(0,255,255,1);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
             font-size: 10px;
+            letter-spacing: 0.2em;
+            color: rgba(107,114,128,1);
+            text-transform: uppercase;
         }
-    }
-    </style>
-</head>
-<body>
-    <script>
-    // Inline geo-blocking - runs immediately
-    const blockedCountries = ['PK', 'CN', 'RU', 'BD', 'IN', 'TR', 'NP', 'RO', 'AF', 'KP', 'IR'];
-    document.body.style.display = 'none';
 
-    fetch('https://get.geojs.io/v1/ip/country.json')
-        .then(r => r.json())
-        .then(data => {
-            if (blockedCountries.includes(data.country)) {
-                document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0a0a0a;color:#fff;font-family:system-ui;text-align:center;padding:2rem"><div><h1 style="font-size:2.5rem;margin-bottom:1rem;color:#00ffff">Access Denied</h1><p style="font-size:1.25rem;color:#9ca3af">This website is not available in your country.</p></div></div>';
+        .data-packets {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .data-packet {
+            position: absolute;
+            width: 2px;
+            height: 32px;
+            background: linear-gradient(to bottom, rgba(0,255,255,0.8), transparent);
+            animation: dataFall 2s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes dataFall {
+            from {
+                transform: translateY(-100vh);
+                opacity: 0;
             }
-            document.body.style.display = 'block';
-        })
-        .catch(() => document.body.style.display = 'block');
-    </script>
-    <div class="container">
-        <canvas id="three-canvas"></canvas>
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
 
-        <div class="grid-overlay"></div>
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 72px;
+            }
 
-        <!-- HUD Elements -->
-        <div class="hud-top-left">
-            <div class="hud-panel">
-                <div><span class="pulse-dot"></span>SYS.NEURAL.ACTIVE</div>
-                <div>QUANTUM_STATE: SYNCHRONIZED</div>
-                <div>TARGET_LOCK: <span id="target-status">SCANNING</span></div>
+            .tagline-main {
+                font-size: 32px;
+            }
+
+            .clarke-quote-overlay {
+                font-size: 14px;
+                padding: 0 1rem;
+                letter-spacing: 0.1em;
+            }
+
+            #quote-hologram {
+                width: 400px !important;
+                height: 200px !important;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .hud-top-left, .hud-top-right {
+                font-size: 9px;
+                top: 16px;
+            }
+
+            .hud-top-left {
+                left: 16px;
+                max-width: 200px;
+            }
+
+            .hud-top-right {
+                right: 16px;
+            }
+
+            .hud-panel {
+                padding: 12px;
+                margin-bottom: 8px;
+            }
+
+            .corner {
+                width: 50px;
+                height: 50px;
+            }
+
+            .corner::before {
+                height: 30px !important;
+            }
+
+            .corner::after {
+                width: 30px !important;
+            }
+
+            .neural-bars {
+                gap: 4px;
+            }
+
+            .bar {
+                width: 2px;
+            }
+
+            .quote-word {
+                font-size: 12px;
+            }
+
+            .btn {
+                padding: 16px 32px;
+                font-size: 16px;
+            }
+        }
+        </style>
+    </head>
+    <body>
+        <script>
+        // Inline geo-blocking - runs immediately
+        const blockedCountries = ['PK', 'CN', 'RU', 'BD', 'IN', 'TR', 'NP', 'RO', 'AF', 'KP', 'IR'];
+        document.body.style.display = 'none';
+
+        fetch('https://get.geojs.io/v1/ip/country.json')
+            .then(r => r.json())
+            .then(data => {
+                if (blockedCountries.includes(data.country)) {
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0a0a0a;color:#fff;font-family:system-ui;text-align:center;padding:2rem"><div><h1 style="font-size:2.5rem;margin-bottom:1rem;color:#00ffff">Access Denied</h1><p style="font-size:1.25rem;color:#9ca3af">This website is not available in your country.</p></div></div>';
+                }
+                document.body.style.display = 'block';
+            })
+            .catch(() => document.body.style.display = 'block');
+        </script>
+        <div class="container">
+            <canvas id="three-canvas"></canvas>
+
+            <div class="grid-overlay"></div>
+
+            <!-- Floating Clarke Quote Words -->
+            <div class="floating-quotes" id="floating-quotes"></div>
+
+            <!-- HUD Elements -->
+            <div class="hud-top-left">
+                <div class="hud-panel">
+                    <div><span class="pulse-dot"></span>SYS.NEURAL.ACTIVE</div>
+                    <div>QUANTUM_STATE: SYNCHRONIZED</div>
+                    <div>TARGET_LOCK: <span id="target-status">SCANNING</span></div>
+                </div>
             </div>
-        </div>
 
-        <div class="hud-top-right">
-            <div id="current-time"></div>
-            <div>PROTOCOL: AI_CORE_v10.0</div>
-            <div>NEURAL_NET: <span class="pulse-dot"></span>ACTIVE</div>
-        </div>
-
-        <!-- Neural Activity Bars -->
-        <div class="neural-bars left" id="neural-left"></div>
-        <div class="neural-bars right" id="neural-right"></div>
-
-        <!-- Corner Brackets -->
-        <div class="corner top-left"></div>
-        <div class="corner top-right"></div>
-        <div class="corner bottom-left"></div>
-        <div class="corner bottom-right"></div>
-
-        <!-- Data Packets -->
-        <div class="data-packets" id="data-packets"></div>
-
-        <!-- Main Content -->
-        <div class="content">
-            <!-- Logo -->
-            <div class="logo-container" id="logo-container">
-                <div class="logo-glow"></div>
-                <h1 class="logo">10YX</h1>
+            <div class="hud-top-right">
+                <div id="current-time"></div>
+                <div>PROTOCOL: AI_CORE_v10.0</div>
+                <div>NEURAL_NET: <span class="pulse-dot"></span>ACTIVE</div>
             </div>
 
-            <!-- Tagline -->
-            <div class="tagline">
-                <p class="tagline-main">10 YEARS AHEAD</p>
-                <p class="tagline-sub">BUILDING • THE • IMPOSSIBLE</p>
-            </div>
+            <!-- Neural Activity Bars -->
+            <div class="neural-bars left" id="neural-left"></div>
+            <div class="neural-bars right" id="neural-right"></div>
 
-            <!-- Feature Cards -->
-            <div class="features">
-                <div class="feature-card">
-                    <div class="card-icon">⚡</div>
-                    <h3 class="card-title">QUANTUM LEAP</h3>
-                    <p class="card-desc">10X velocity, infinite scale</p>
+            <!-- Corner Brackets -->
+            <div class="corner top-left"></div>
+            <div class="corner top-right"></div>
+            <div class="corner bottom-left"></div>
+            <div class="corner bottom-right"></div>
+
+            <!-- Data Packets -->
+            <div class="data-packets" id="data-packets"></div>
+
+            <!-- Main Content -->
+            <div class="content">
+                <!-- Logo -->
+                <div class="logo-container" id="logo-container">
+                    <div class="logo-glow"></div>
+                    <h1 class="logo">10YX</h1>
                 </div>
 
-                <div class="feature-card">
-                    <div class="card-icon">🧠</div>
-                    <h3 class="card-title">NEURAL CORE</h3>
-                    <p class="card-desc">AI beyond comprehension</p>
+                <!-- Tagline -->
+                <div class="tagline" id="tagline">
+                    <p class="tagline-main">10 YEARS AHEAD</p>
+                    <p class="tagline-sub">BUILDING • THE • IMPOSSIBLE</p>
+                    <div class="clarke-quote-overlay" id="clarke-quote-overlay">
+                        <span class="alien-text">ΛΠΨ ƧЦҒҒICIΣΠƬLΨ ΛDVΛПCΣD</span><br>
+                        <span class="alien-text">ƬΣCΉПӨLӨGΨ IƧ IПDIƧƬIПGЦIƧΉΛBLΣ</span><br>
+                        <span class="alien-text">FЯӨM MΛGIC</span>
+                    </div>
+                    <canvas id="quote-hologram" width="600" height="300" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; opacity: 0; z-index: 5;"></canvas>
                 </div>
 
-                <div class="feature-card">
-                    <div class="card-icon">🚀</div>
-                    <h3 class="card-title">FUTURE STACK</h3>
-                    <p class="card-desc">Technology from 2035</p>
-                </div>
-            </div>
+                <!-- Feature Cards -->
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="card-icon">⚡</div>
+                        <h3 class="card-title">QUANTUM LEAP</h3>
+                        <p class="card-desc">10X velocity, infinite scale</p>
+                    </div>
 
-            <!-- CTA Buttons -->
-            <div class="cta-buttons">
-                <a href="/about.html" class="btn btn-primary" id="init-btn">
-                    🎯 INITIALIZE →
-                </a>
+                    <div class="feature-card">
+                        <div class="card-icon">🧠</div>
+                        <h3 class="card-title">NEURAL CORE</h3>
+                        <p class="card-desc">AI beyond comprehension</p>
+                    </div>
 
-                <a href="/contact.html" class="btn btn-secondary">
-                    💻 CONTACT US
-                </a>
-            </div>
-
-            <!-- Stats -->
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-panel">
-                        <div class="stat-value">10X</div>
-                        <div class="stat-label">PERFORMANCE</div>
+                    <div class="feature-card">
+                        <div class="card-icon">🚀</div>
+                        <h3 class="card-title">FUTURE STACK</h3>
+                        <p class="card-desc">Technology from 2035</p>
                     </div>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-panel">
-                        <div class="stat-value">∞</div>
-                        <div class="stat-label">SCALE</div>
-                    </div>
+                <!-- CTA Buttons -->
+                <div class="cta-buttons">
+                    <a href="/about.html" class="btn btn-primary" id="init-btn">
+                        🎯 INITIALIZE →
+                    </a>
+
+                    <a href="/contact.html" class="btn btn-secondary">
+                        💻 CONTACT US
+                    </a>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-panel">
-                        <div class="stat-value">2035</div>
-                        <div class="stat-label">TECH YEAR</div>
+                <!-- Stats -->
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-panel">
+                            <div class="stat-value">10X</div>
+                            <div class="stat-label">PERFORMANCE</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-panel">
+                            <div class="stat-value">∞</div>
+                            <div class="stat-label">SCALE</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-panel">
+                            <div class="stat-value">2035</div>
+                            <div class="stat-label">TECH YEAR</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
+        <script>
+        // Detect mobile for performance optimizations
+        const isMobile = window.innerWidth < 768;
+
         // Three.js Setup
         const canvas = document.getElementById('three-canvas');
         const scene = new THREE.Scene();
@@ -528,55 +981,284 @@
         const renderer = new THREE.WebGLRenderer({
             canvas: canvas,
             alpha: true,
-            antialias: true
+            antialias: !isMobile // Disable antialiasing on mobile for performance
         });
 
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        camera.position.z = 5;
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 2)); // Limit pixel ratio on mobile
+        camera.position.z = 8;
 
-        // Create floating geometric shapes
-        const shapes = [];
-        const geometries = [
-            new THREE.IcosahedronGeometry(1.5, 0),
-            new THREE.OctahedronGeometry(1, 0),
-            new THREE.TorusGeometry(0.8, 0.3, 16, 100)
-        ];
+        // Create Holographic Dodecagon Logo
+        function createDodecagonLogo() {
+            const group = new THREE.Group();
 
-        const material = new THREE.MeshBasicMaterial({
+            // Outer dodecagon (12-sided polygon)
+            const dodecagonShape = new THREE.Shape();
+            const sides = 12;
+            const radius = isMobile ? 2.5 : 3; // Smaller on mobile
+
+            for (let i = 0; i <= sides; i++) {
+                const angle = (i / sides) * Math.PI * 2;
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
+                if (i === 0) {
+                    dodecagonShape.moveTo(x, y);
+                } else {
+                    dodecagonShape.lineTo(x, y);
+                }
+            }
+
+            // Create outer ring with holographic material
+            const extrudeSettings = {
+                depth: 0.3,
+                bevelEnabled: !isMobile, // Disable bevel on mobile
+                bevelThickness: 0.1,
+                bevelSize: 0.1,
+                bevelSegments: isMobile ? 1 : 3
+            };
+
+            const dodecagonGeometry = new THREE.ExtrudeGeometry(dodecagonShape, extrudeSettings);
+            const holographicMaterial = new THREE.MeshBasicMaterial({
+                color: 0x00ffff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.25,
+                side: THREE.DoubleSide
+            });
+
+            const dodecagonMesh = new THREE.Mesh(dodecagonGeometry, holographicMaterial);
+            group.add(dodecagonMesh);
+
+            // Inner X pattern - create two diagonal bars
+            const barWidth = 0.4;
+            const barLength = radius * 1.8;
+
+            // First diagonal bar (top-left to bottom-right)
+            const bar1Geometry = new THREE.BoxGeometry(barWidth, barLength, 0.3);
+            const bar1 = new THREE.Mesh(bar1Geometry, holographicMaterial);
+            bar1.rotation.z = Math.PI / 4;
+            group.add(bar1);
+
+            // Second diagonal bar (top-right to bottom-left)
+            const bar2Geometry = new THREE.BoxGeometry(barWidth, barLength, 0.3);
+            const bar2 = new THREE.Mesh(bar2Geometry, holographicMaterial);
+            bar2.rotation.z = -Math.PI / 4;
+            group.add(bar2);
+
+            // Add glowing edges
+            const edgesMaterial = new THREE.LineBasicMaterial({
+                color: 0x00ffff,
+                transparent: true,
+                opacity: 0.6,
+                linewidth: 2
+            });
+
+            const edges1 = new THREE.EdgesGeometry(dodecagonGeometry);
+            const edgeLine1 = new THREE.LineSegments(edges1, edgesMaterial);
+            group.add(edgeLine1);
+
+            const edges2 = new THREE.EdgesGeometry(bar1Geometry);
+            const edgeLine2 = new THREE.LineSegments(edges2, edgesMaterial);
+            edgeLine2.rotation.z = Math.PI / 4;
+            group.add(edgeLine2);
+
+            const edges3 = new THREE.EdgesGeometry(bar2Geometry);
+            const edgeLine3 = new THREE.LineSegments(edges3, edgesMaterial);
+            edgeLine3.rotation.z = -Math.PI / 4;
+            group.add(edgeLine3);
+
+            group.position.set(0, 0, -2);
+            return group;
+        }
+
+        const dodecagonLogo = createDodecagonLogo();
+        scene.add(dodecagonLogo);
+
+        // Create Quote Hologram Scene (separate canvas)
+        const quoteCanvas = document.getElementById('quote-hologram');
+        const quoteScene = new THREE.Scene();
+        const quoteCamera = new THREE.PerspectiveCamera(50, (isMobile ? 400 : 600) / (isMobile ? 200 : 300), 0.1, 1000);
+        const quoteRenderer = new THREE.WebGLRenderer({
+            canvas: quoteCanvas,
+            alpha: true,
+            antialias: !isMobile
+        });
+
+        quoteRenderer.setSize(isMobile ? 400 : 600, isMobile ? 200 : 300);
+        quoteRenderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 2));
+        quoteCamera.position.z = 5;
+
+        // Create holographic frame around quote
+        const quoteFrameGroup = new THREE.Group();
+
+        // Hexagonal frame
+        const hexPoints = [];
+        for (let i = 0; i < 6; i++) {
+            const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
+            hexPoints.push(new THREE.Vector3(
+                Math.cos(angle) * 4,
+                Math.sin(angle) * 2,
+                0
+            ));
+        }
+        hexPoints.push(hexPoints[0]); // Close the shape
+
+        const hexGeometry = new THREE.BufferGeometry().setFromPoints(hexPoints);
+        const hexMaterial = new THREE.LineBasicMaterial({
             color: 0x00ffff,
-            wireframe: true,
             transparent: true,
-            opacity: 0.12
+            opacity: 0.6,
+            linewidth: 2
         });
+        const hexFrame = new THREE.Line(hexGeometry, hexMaterial);
+        quoteFrameGroup.add(hexFrame);
 
-        geometries.forEach((geo, i) => {
-            const shape = new THREE.Mesh(geo, material);
-            shape.position.set((i - 1) * 3, Math.sin(i) * 2, -2 - i);
-            shapes.push(shape);
-            scene.add(shape);
-        });
+        // Corner markers
+        for (let i = 0; i < 6; i++) {
+            const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
+            const cornerGeo = new THREE.BoxGeometry(0.15, 0.15, 0.15);
+            const cornerMat = new THREE.MeshBasicMaterial({
+                color: 0x00ffff,
+                transparent: true,
+                opacity: 0.8
+            });
+            const corner = new THREE.Mesh(cornerGeo, cornerMat);
+            corner.position.set(
+                Math.cos(angle) * 4,
+                Math.sin(angle) * 2,
+                0
+            );
+            quoteFrameGroup.add(corner);
+        }
+
+        // Orbiting particles
+        const quoteParticles = [];
+        for (let i = 0; i < 20; i++) {
+            const particleGeo = new THREE.SphereGeometry(0.05, 4, 4);
+            const particleMat = new THREE.MeshBasicMaterial({
+                color: 0x00ffff,
+                transparent: true,
+                opacity: 0.6
+            });
+            const particle = new THREE.Mesh(particleGeo, particleMat);
+
+            const angle = (i / 20) * Math.PI * 2;
+            particle.userData.angle = angle;
+            particle.userData.radius = 3.5 + Math.random() * 1;
+            particle.userData.speed = 0.02 + Math.random() * 0.03;
+            particle.userData.yOffset = (Math.random() - 0.5) * 2;
+
+            quoteParticles.push(particle);
+            quoteFrameGroup.add(particle);
+        }
+
+        quoteScene.add(quoteFrameGroup);
+
+        let quoteHologramActive = false;
+        let quoteHologramTime = 0;
+
+        // Create subtle background geometric shapes (reduced prominence)
+        const shapes = [];
+
+        // Reduce number of shapes on mobile
+        if (!isMobile) {
+            const geometries = [
+                new THREE.IcosahedronGeometry(1.5, 0),
+                new THREE.OctahedronGeometry(1, 0),
+                new THREE.TorusGeometry(0.8, 0.3, 16, 100)
+            ];
+
+            const subtleMaterial = new THREE.MeshBasicMaterial({
+                color: 0x00ffff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.04  // Much more subtle
+            });
+
+            geometries.forEach((geo, i) => {
+                const shape = new THREE.Mesh(geo, subtleMaterial);
+                shape.position.set((i - 1) * 5, Math.sin(i) * 3, -5 - i * 2);
+                shapes.push(shape);
+                scene.add(shape);
+            });
+        }
 
         let mouseX = 0, mouseY = 0;
+
+        // Mouse movement for desktop
         window.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX / window.innerWidth) * 2 - 1;
             mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
         });
 
+        // Touch movement for mobile
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                mouseX = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
+            }
+        });
+
+        // Reduce camera parallax on mobile
+        const parallaxFactor = isMobile ? 0.015 : 0.03;
+
+        // Animation loop
+        let time = 0;
         function animate() {
             requestAnimationFrame(animate);
+            time += 0.01;
 
-            shapes.forEach((shape, i) => {
-                shape.rotation.x += 0.003 + i * 0.001;
-                shape.rotation.y += 0.005 + i * 0.001;
-                shape.rotation.z += 0.002;
+            // Animate dodecagon logo (holographic rotation)
+            dodecagonLogo.rotation.z += 0.002;
+            dodecagonLogo.rotation.x = Math.sin(time * 0.3) * 0.1;
+            dodecagonLogo.rotation.y = Math.cos(time * 0.2) * 0.1;
+
+            // Pulsing glow effect
+            const pulse = Math.sin(time * 2) * 0.15 + 0.3;
+            dodecagonLogo.children.forEach(child => {
+                if (child.material) {
+                    child.material.opacity = pulse;
+                }
             });
 
-            camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.05;
-            camera.position.y += (mouseY * 1.5 - camera.position.y) * 0.05;
+            // Animate background shapes (subtle)
+            shapes.forEach((shape, i) => {
+                shape.rotation.x += 0.002 + i * 0.0005;
+                shape.rotation.y += 0.003 + i * 0.0005;
+                shape.rotation.z += 0.001;
+            });
+
+            // Camera movement based on mouse (reduced on mobile)
+            camera.position.x += (mouseX * 1 - camera.position.x) * parallaxFactor;
+            camera.position.y += (mouseY * 1 - camera.position.y) * parallaxFactor;
             camera.lookAt(scene.position);
 
             renderer.render(scene, camera);
+
+            // Animate quote hologram if active
+            if (quoteHologramActive) {
+                quoteHologramTime += 0.05;
+
+                // Rotate frame
+                quoteFrameGroup.rotation.z += 0.01;
+
+                // Pulse frame opacity
+                const framePulse = Math.sin(quoteHologramTime * 2) * 0.3 + 0.6;
+                hexFrame.material.opacity = framePulse;
+
+                // Animate particles
+                quoteParticles.forEach((particle, i) => {
+                    const angle = particle.userData.angle + quoteHologramTime * particle.userData.speed;
+                    particle.position.x = Math.cos(angle) * particle.userData.radius;
+                    particle.position.y = Math.sin(angle) * (particle.userData.radius * 0.5) + particle.userData.yOffset;
+                    particle.position.z = Math.sin(quoteHologramTime + i) * 0.5;
+
+                    // Pulse particle opacity
+                    particle.material.opacity = Math.sin(quoteHologramTime * 2 + i * 0.5) * 0.4 + 0.5;
+                });
+
+                quoteRenderer.render(quoteScene, quoteCamera);
+            }
         }
         animate();
 
@@ -584,9 +1266,157 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Update orbiting word positions on resize
+            const center = getTaglineCenter();
+            allWordElements.forEach(wordEl => {
+                wordEl.dataset.centerX = center.x;
+                wordEl.dataset.centerY = center.y;
+            });
         });
 
-        // Update time
+        // Clarke Quote Hovering Around Tagline
+        const clarkeQuote = "Any sufficiently advanced technology is indistinguishable from magic";
+        const words = clarkeQuote.split(' ');
+        const container = document.getElementById('floating-quotes');
+        const wordInstances = isMobile ? 1 : 2;
+
+        const allWordElements = [];
+
+        // Get tagline position for orbiting words
+        function getTaglineCenter() {
+            const tagline = document.getElementById('tagline');
+            const rect = tagline.getBoundingClientRect();
+            return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+            };
+        }
+
+        words.forEach((word, index) => {
+            for (let j = 0; j < wordInstances; j++) {
+                const wordEl = document.createElement('div');
+                wordEl.className = 'quote-word';
+                wordEl.textContent = word;
+
+                // Calculate orbit position around tagline
+                const center = getTaglineCenter();
+                const angle = (index / words.length) * Math.PI * 2 + (j * Math.PI / 4);
+                const orbitRadius = isMobile ? 150 : 250;
+                const randomOffset = (Math.random() - 0.5) * 50;
+
+                const startX = center.x + Math.cos(angle) * (orbitRadius + randomOffset);
+                const startY = center.y + Math.sin(angle) * (orbitRadius * 0.6 + randomOffset);
+
+                wordEl.style.left = startX + 'px';
+                wordEl.style.top = startY + 'px';
+
+                // Very subtle by default
+                const opacity = 0.03 + Math.random() * 0.02;
+                wordEl.style.opacity = opacity;
+
+                // Store original position for animation
+                wordEl.dataset.centerX = center.x;
+                wordEl.dataset.centerY = center.y;
+                wordEl.dataset.angle = angle;
+                wordEl.dataset.radius = orbitRadius + randomOffset;
+                wordEl.dataset.orbitSpeed = 0.0002 + Math.random() * 0.0003;
+
+                container.appendChild(wordEl);
+                allWordElements.push(wordEl);
+            }
+        });
+
+        // Animate orbiting words
+        let orbitTime = 0;
+        function animateOrbitingWords() {
+            orbitTime += 1;
+            const center = getTaglineCenter();
+
+            allWordElements.forEach(wordEl => {
+                const baseAngle = parseFloat(wordEl.dataset.angle);
+                const radius = parseFloat(wordEl.dataset.radius);
+                const speed = parseFloat(wordEl.dataset.orbitSpeed);
+
+                const currentAngle = baseAngle + (orbitTime * speed);
+                const x = center.x + Math.cos(currentAngle) * radius;
+                const y = center.y + Math.sin(currentAngle) * (radius * 0.6);
+
+                wordEl.style.left = x + 'px';
+                wordEl.style.top = y + 'px';
+            });
+        }
+
+        // Run orbit animation
+        setInterval(animateOrbitingWords, 50);
+
+        // Metal Gear Solid Style Tagline Transformation
+        let isTransforming = false;
+
+        function transformToQuote() {
+            if (isTransforming) return;
+            isTransforming = true;
+
+            const tagline = document.getElementById('tagline');
+            const overlay = document.getElementById('clarke-quote-overlay');
+            const hologramCanvas = document.getElementById('quote-hologram');
+
+            // Start transformation
+            tagline.classList.add('transforming');
+
+            // Activate hologram
+            quoteHologramActive = true;
+            quoteHologramTime = 0;
+            hologramCanvas.style.opacity = '0';
+
+            // Brief delay for blur effect
+            setTimeout(() => {
+                overlay.classList.add('visible');
+                overlay.style.animation = 'alienTextGlitchIn 1.2s forwards';
+
+                // Fade in hologram
+                hologramCanvas.style.transition = 'opacity 0.8s';
+                hologramCanvas.style.opacity = '1';
+            }, 300);
+
+            // Hold the quote for 6 seconds
+            setTimeout(() => {
+                // Start glitch out
+                overlay.style.animation = 'alienTextGlitchOut 1s forwards';
+
+                // Fade out hologram
+                hologramCanvas.style.opacity = '0';
+
+                // Remove transformation after glitch out
+                setTimeout(() => {
+                    tagline.classList.remove('transforming');
+                    overlay.classList.remove('visible');
+                    overlay.style.animation = '';
+                    isTransforming = false;
+                    quoteHologramActive = false;
+                }, 1000);
+            }, 6000);
+        }
+
+        // Schedule random transformations between 30-60 seconds
+        function scheduleNextTransformation() {
+            const minDelay = 30000;  // 30 seconds
+            const maxDelay = 60000;  // 60 seconds
+            const delay = minDelay + Math.random() * (maxDelay - minDelay);
+
+            setTimeout(() => {
+                transformToQuote();
+                scheduleNextTransformation(); // Schedule the next one
+            }, delay);
+        }
+
+        // Start the transformation system after 8 seconds (first one comes sooner)
+        setTimeout(() => {
+            transformToQuote();
+            scheduleNextTransformation();
+        }, 8000);
+
+        // Update time display
         function updateTime() {
             document.getElementById('current-time').textContent = new Date().toLocaleTimeString();
         }
@@ -617,12 +1447,12 @@
             bars.forEach(bar => {
                 const height = 20 + Math.random() * 80;
                 bar.style.height = `${height * 0.6}px`;
-                bar.style.opacity = 0.3 + (height / 150);
+                bar.style.opacity = 0.3 + (height / 200);
             });
         }
-        setInterval(updateNeuralActivity, 100);
+        setInterval(updateNeuralActivity, 150);
 
-        // Data packets
+        // Data packets (reduce on mobile)
         function createDataPacket() {
             const container = document.getElementById('data-packets');
             const packet = document.createElement('div');
@@ -633,15 +1463,30 @@
 
             setTimeout(() => packet.remove(), 2000 + Math.random() * 2000);
         }
-        setInterval(createDataPacket, 300);
 
-        // Target lock toggle
+        // Reduce packet frequency on mobile
+        setInterval(createDataPacket, isMobile ? 800 : 400);
+
+        // Target lock toggle (works for both click and touch)
         let targetLocked = false;
-        document.getElementById('logo-container').addEventListener('click', () => {
+        const logoContainer = document.getElementById('logo-container');
+
+        function toggleTargetLock() {
             targetLocked = !targetLocked;
             document.getElementById('target-status').textContent = targetLocked ? 'ENGAGED' : 'SCANNING';
             document.getElementById('init-btn').innerHTML = targetLocked ? '🎯 SYSTEM LOCKED →' : '🎯 INITIALIZE →';
+
+            // Trigger quote transformation when locked
+            if (targetLocked && !isTransforming) {
+                transformToQuote();
+            }
+        }
+
+        logoContainer.addEventListener('click', toggleTargetLock);
+        logoContainer.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            toggleTargetLock();
         });
-    </script>
-</body>
+        </script>
+    </body>
 </html>
