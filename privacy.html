@@ -1,65 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy | 10YX</title>
-    <meta name="description" content="Privacy Policy for 10YX OÜ.">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png">
-</head>
-<body>
-    <nav class="nav">
-        <div class="nav-container">
-            <a href="/" class="nav-logo">10YX</a>
-            <ul class="nav-menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                <li><a href="/news.html">News</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Privacy Policy | 10YX</title>
+        <meta name="description" content="Privacy Policy for 10YX OÜ.">
+        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png">
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-1MN5PX6T1T');
+        </script>
+    </head>
+    <body>
+        <script>
+        // Inline geo-blocking - runs immediately
+        const blockedCountries = ['PK', 'CN', 'RU', 'BD', 'IN', 'TR', 'NP', 'RO', 'AF', 'KP', 'IR'];
+        document.body.style.display = 'none';
 
-    <main class="container">
-        <article class="content-page">
-            <h1>Privacy Policy</h1>
+        fetch('https://get.geojs.io/v1/ip/country.json')
+            .then(r => r.json())
+            .then(data => {
+                if (blockedCountries.includes(data.country)) {
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0a0a0a;color:#fff;font-family:system-ui;text-align:center;padding:2rem"><div><h1 style="font-size:2.5rem;margin-bottom:1rem;color:#00ffff">Access Denied</h1><p style="font-size:1.25rem;color:#9ca3af">This website is not available in your country.</p></div></div>';
+                }
+                document.body.style.display = 'block';
+            })
+            .catch(() => document.body.style.display = 'block');
+        </script>
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="/" class="nav-logo">10YX</a>
+                <ul class="nav-menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/news.html">News</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
 
-            <p><strong>Last updated:</strong> June 10, 2025</p>
+        <main class="container">
+            <article class="content-page">
+                <h1>Privacy Policy</h1>
 
-            <p>This Privacy Policy describes how <em>10yx OÜ</em> ("we," "us," or "our") collects, uses, and shares information from users ("you" or "your") of our website and software services. We are committed to protecting your privacy and ensuring the security of your personal information.</p>
+                <p><strong>Last updated:</strong> June 10, 2025</p>
 
-            <h2>1. Information We Collect</h2>
-            <p>We may collect the following information from you:</p>
+                <p>This Privacy Policy describes how <em>10yx OÜ</em> ("we," "us," or "our") collects, uses, and shares information from users ("you" or "your") of our website and software services. We are committed to protecting your privacy and ensuring the security of your personal information.</p>
 
-            <h3>1.1. Personal Information</h3>
-            <p>When you use our website or software services, we may collect your name and email address. This information is collected solely for the purpose of providing you with our services and communicating with you.</p>
+                <h2>1. Information We Collect</h2>
+                <p>We may collect the following information from you:</p>
 
-            <h3>1.2. Usage Data</h3>
-            <p>We may collect usage data, including crash reports and information on how you use our software services. This information is collected for the purpose of debugging and improving our services.</p>
+                <h3>1.1. Personal Information</h3>
+                <p>When you use our website or software services, we may collect your name and email address. This information is collected solely for the purpose of providing you with our services and communicating with you.</p>
 
-            <h2>2. Use of Information</h2>
-            <p>We use the collected information for the following purposes:</p>
+                <h3>1.2. Usage Data</h3>
+                <p>We may collect usage data, including crash reports and information on how you use our software services. This information is collected for the purpose of debugging and improving our services.</p>
 
-            <h3>2.1. Providing Services</h3>
-            <p>We use your personal information to provide you with our software services and to communicate with you regarding your use of our services.</p>
+                <h2>2. Use of Information</h2>
+                <p>We use the collected information for the following purposes:</p>
 
-            <h3>2.2. Improving Services</h3>
-            <p>We may analyze the usage data to identify and fix any issues with our software services, as well as to enhance and optimize their performance.</p>
+                <h3>2.1. Providing Services</h3>
+                <p>We use your personal information to provide you with our software services and to communicate with you regarding your use of our services.</p>
 
-            <h2>3. Sharing of Information</h2>
-            <p>We do not sell, trade, or otherwise transfer your personal information to third parties. However, we may share your information with trusted service providers who assist us in operating our website and software services. These service providers are obligated to keep your information confidential and are not permitted to use it for any other purpose.</p>
+                <h3>2.2. Improving Services</h3>
+                <p>We may analyze the usage data to identify and fix any issues with our software services, as well as to enhance and optimize their performance.</p>
 
-            <h2>4. Data Security</h2>
-            <p>We take appropriate measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. However, please note that no method of transmission over the internet or electronic storage is completely secure. Therefore, we cannot guarantee its absolute security.</p>
+                <h2>3. Sharing of Information</h2>
+                <p>We do not sell, trade, or otherwise transfer your personal information to third parties. However, we may share your information with trusted service providers who assist us in operating our website and software services. These service providers are obligated to keep your information confidential and are not permitted to use it for any other purpose.</p>
 
-            <h2>5. Your Rights</h2>
-            <p>You have the right to access, update, or delete your personal information held by us. If you would like to exercise any of these rights, please contact us using the information provided below. We will respond to your request within a reasonable timeframe.</p>
+                <h2>4. Data Security</h2>
+                <p>We take appropriate measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. However, please note that no method of transmission over the internet or electronic storage is completely secure. Therefore, we cannot guarantee its absolute security.</p>
 
-            <h2>6. Contact Us</h2>
-            <p>If you have any questions or concerns about our Privacy Policy or the handling of your personal information, please contact us at:</p>
+                <h2>5. Your Rights</h2>
+                <p>You have the right to access, update, or delete your personal information held by us. If you would like to exercise any of these rights, please contact us using the information provided below. We will respond to your request within a reasonable timeframe.</p>
 
-            <div class="contact-card" style="margin-top: 1.5rem;">
+                <h2>6. Contact Us</h2>
+                <p>If you have any questions or concerns about our Privacy Policy or the handling of your personal information, please contact us at:</p>
+
+                <div class="contact-card" style="margin-top: 1.5rem;">
                 <p><strong>10yx OÜ</strong></p>
                 <p>Sakala tn 7-2, Kesklinna linnaosa, Tallinn, Harju maakond, 10141</p>
                 <p>Email: <a href="mailto:info@10yx.co">info@10yx.co</a></p>

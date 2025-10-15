@@ -1,34 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News | 10YX</title>
-    <meta name="description" content="Latest news and updates from 10YX.">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png">
-</head>
-<body>
-    <nav class="nav">
-        <div class="nav-container">
-            <a href="/" class="nav-logo">10YX</a>
-            <ul class="nav-menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                <li><a href="/news.html" class="active">News</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>News | 10YX</title>
+        <meta name="description" content="Latest news and updates from 10YX.">
+        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png">
+         <script>
+           window.dataLayer = window.dataLayer || [];
+           function gtag(){dataLayer.push(arguments);}
+           gtag('js', new Date());
+           gtag('config', 'G-1MN5PX6T1T');
+        </script>
+    </head>
+    <body>
+        <script>
+        // Inline geo-blocking - runs immediately
+        const blockedCountries = ['PK', 'CN', 'RU', 'BD', 'IN', 'TR', 'NP', 'RO', 'AF', 'KP', 'IR'];
+        document.body.style.display = 'none';
 
-    <main class="container">
-        <article class="content-page">
-            <h1>News</h1>
+        fetch('https://get.geojs.io/v1/ip/country.json')
+            .then(r => r.json())
+            .then(data => {
+                if (blockedCountries.includes(data.country)) {
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0a0a0a;color:#fff;font-family:system-ui;text-align:center;padding:2rem"><div><h1 style="font-size:2.5rem;margin-bottom:1rem;color:#00ffff">Access Denied</h1><p style="font-size:1.25rem;color:#9ca3af">This website is not available in your country.</p></div></div>';
+                }
+                document.body.style.display = 'block';
+            })
+            .catch(() => document.body.style.display = 'block');
+        </script>
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="/" class="nav-logo">10YX</a>
+                <ul class="nav-menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/news.html" class="active">News</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
 
-            <p>Welcome to our News section, your go-to destination for all things happening at 10yx. Stay up-to-date with the latest developments, innovations, and exciting news as we continue to grow and make strides in our industry.</p>
+        <main class="container">
+            <article class="content-page">
+                <h1>News</h1>
 
-            <div class="news-list">
-                <article class="news-item">
+                <p>Welcome to our News section, your go-to destination for all things happening at 10yx. Stay up-to-date with the latest developments, innovations, and exciting news as we continue to grow and make strides in our industry.</p>
+
+                <div class="news-list">
+                    <article class="news-item">
                     <time datetime="2023-07-18">July 18, 2023</time>
                     <h2><a href="#launch">Unlocking Potential: 10yx Launches New Website</a></h2>
                     <p>We are thrilled to announce the launch of our new website! It is with great excitement we introduce ourselves and our mission to empower individuals and businesses through innovative technology solutions.</p>
