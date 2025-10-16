@@ -76,7 +76,6 @@
             to { transform: translate(60px, 60px); }
         }
 
-        /* Clarke Quote Hovering Around Tagline */
         .floating-quotes {
             position: absolute;
             inset: 0;
@@ -95,7 +94,6 @@
             transition: all 0.3s;
         }
 
-        /* Tagline Transformation States */
         .tagline {
             margin-bottom: 48px;
             text-align: center;
@@ -140,7 +138,6 @@
             animation: alienTextGlitchIn 1.2s forwards;
         }
 
-        /* Alien Text Glitch Effects */
         @keyframes alienTextGlitchIn {
             0% {
                 opacity: 0;
@@ -247,7 +244,6 @@
             }
         }
 
-        /* Scanline overlay during transformation */
         .tagline::before {
             content: '';
             position: absolute;
@@ -274,7 +270,6 @@
             100% { transform: translateY(2px); }
         }
 
-        /* Digital noise overlay */
         .tagline::after {
             content: '';
             position: absolute;
@@ -296,7 +291,6 @@
             50% { opacity: 0.2; }
         }
 
-        /* Alien Tech HUD Elements */
         .hud-top-left, .hud-top-right {
             position: absolute;
             top: 24px;
@@ -571,11 +565,6 @@
             }
         }
 
-        .tagline {
-            margin-bottom: 48px;
-            text-align: center;
-        }
-
         .tagline-main {
             font-size: 48px;
             font-weight: 300;
@@ -760,6 +749,31 @@
             }
         }
 
+        .transition-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: rgba(0, 255, 255, 0.9);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            animation: hintFadeInOut 4s ease-in-out;
+        }
+
+        @keyframes hintFadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+            10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+        }
+
         @media (max-width: 768px) {
             .logo {
                 font-size: 72px;
@@ -842,7 +856,8 @@
     </head>
     <body>
         <script>
-        // Inline geo-blocking - runs immediately
+        'use strict';
+
         const blockedCountries = ['PK', 'CN', 'RU', 'BD', 'IN', 'TR', 'NP', 'RO', 'AF', 'KP', 'IR'];
         document.body.style.display = 'none';
 
@@ -856,15 +871,12 @@
             })
             .catch(() => document.body.style.display = 'block');
         </script>
+
         <div class="container">
             <canvas id="three-canvas"></canvas>
-
             <div class="grid-overlay"></div>
-
-            <!-- Floating Clarke Quote Words -->
             <div class="floating-quotes" id="floating-quotes"></div>
 
-            <!-- HUD Elements -->
             <div class="hud-top-left">
                 <div class="hud-panel">
                     <div><span class="pulse-dot"></span>SYS.NEURAL.ACTIVE</div>
@@ -879,28 +891,26 @@
                 <div>NEURAL_NET: <span class="pulse-dot"></span>ACTIVE</div>
             </div>
 
-            <!-- Neural Activity Bars -->
             <div class="neural-bars left" id="neural-left"></div>
             <div class="neural-bars right" id="neural-right"></div>
 
-            <!-- Corner Brackets -->
             <div class="corner top-left"></div>
             <div class="corner top-right"></div>
             <div class="corner bottom-left"></div>
             <div class="corner bottom-right"></div>
 
-            <!-- Data Packets -->
             <div class="data-packets" id="data-packets"></div>
 
-            <!-- Main Content -->
+            <div class="transition-hint" id="transition-hint">
+                PRESS [T] OR DOUBLE-CLICK LOGO TO TRIGGER TRANSITION
+            </div>
+
             <div class="content">
-                <!-- Logo -->
                 <div class="logo-container" id="logo-container">
                     <div class="logo-glow"></div>
                     <h1 class="logo">10YX</h1>
                 </div>
 
-                <!-- Tagline -->
                 <div class="tagline" id="tagline">
                     <p class="tagline-main">10 YEARS AHEAD</p>
                     <p class="tagline-sub">BUILDING • THE • IMPOSSIBLE</p>
@@ -912,7 +922,6 @@
                     <canvas id="quote-hologram" width="600" height="300" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; opacity: 0; z-index: 5;"></canvas>
                 </div>
 
-                <!-- Feature Cards -->
                 <div class="features">
                     <div class="feature-card">
                         <div class="card-icon">⚡</div>
@@ -933,7 +942,6 @@
                     </div>
                 </div>
 
-                <!-- CTA Buttons -->
                 <div class="cta-buttons">
                     <a href="/about.html" class="btn btn-primary" id="init-btn">
                         🎯 INITIALIZE →
@@ -944,7 +952,6 @@
                     </a>
                 </div>
 
-                <!-- Stats -->
                 <div class="stats">
                     <div class="stat-card">
                         <div class="stat-panel">
@@ -971,7 +978,8 @@
         </div>
 
         <script>
-        // Detect mobile for performance optimizations
+        'use strict';
+
         const isMobile = window.innerWidth < 768;
 
         // Three.js Setup
@@ -981,21 +989,19 @@
         const renderer = new THREE.WebGLRenderer({
             canvas: canvas,
             alpha: true,
-            antialias: !isMobile // Disable antialiasing on mobile for performance
+            antialias: !isMobile
         });
 
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 2)); // Limit pixel ratio on mobile
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 2));
         camera.position.z = 8;
 
-        // Create Holographic Dodecagon Logo
         function createDodecagonLogo() {
             const group = new THREE.Group();
 
-            // Outer dodecagon (12-sided polygon)
             const dodecagonShape = new THREE.Shape();
             const sides = 12;
-            const radius = isMobile ? 2.5 : 3; // Smaller on mobile
+            const radius = isMobile ? 2.5 : 3;
 
             for (let i = 0; i <= sides; i++) {
                 const angle = (i / sides) * Math.PI * 2;
@@ -1008,10 +1014,9 @@
                 }
             }
 
-            // Create outer ring with holographic material
             const extrudeSettings = {
                 depth: 0.3,
-                bevelEnabled: !isMobile, // Disable bevel on mobile
+                bevelEnabled: !isMobile,
                 bevelThickness: 0.1,
                 bevelSize: 0.1,
                 bevelSegments: isMobile ? 1 : 3
@@ -1029,23 +1034,19 @@
             const dodecagonMesh = new THREE.Mesh(dodecagonGeometry, holographicMaterial);
             group.add(dodecagonMesh);
 
-            // Inner X pattern - create two diagonal bars
             const barWidth = 0.4;
             const barLength = radius * 1.8;
 
-            // First diagonal bar (top-left to bottom-right)
             const bar1Geometry = new THREE.BoxGeometry(barWidth, barLength, 0.3);
             const bar1 = new THREE.Mesh(bar1Geometry, holographicMaterial);
             bar1.rotation.z = Math.PI / 4;
             group.add(bar1);
 
-            // Second diagonal bar (top-right to bottom-left)
             const bar2Geometry = new THREE.BoxGeometry(barWidth, barLength, 0.3);
             const bar2 = new THREE.Mesh(bar2Geometry, holographicMaterial);
             bar2.rotation.z = -Math.PI / 4;
             group.add(bar2);
 
-            // Add glowing edges
             const edgesMaterial = new THREE.LineBasicMaterial({
                 color: 0x00ffff,
                 transparent: true,
@@ -1074,7 +1075,6 @@
         const dodecagonLogo = createDodecagonLogo();
         scene.add(dodecagonLogo);
 
-        // Create Quote Hologram Scene (separate canvas)
         const quoteCanvas = document.getElementById('quote-hologram');
         const quoteScene = new THREE.Scene();
         const quoteCamera = new THREE.PerspectiveCamera(50, (isMobile ? 400 : 600) / (isMobile ? 200 : 300), 0.1, 1000);
@@ -1088,10 +1088,8 @@
         quoteRenderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 2));
         quoteCamera.position.z = 5;
 
-        // Create holographic frame around quote
         const quoteFrameGroup = new THREE.Group();
 
-        // Hexagonal frame
         const hexPoints = [];
         for (let i = 0; i < 6; i++) {
             const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
@@ -1101,7 +1099,7 @@
                 0
             ));
         }
-        hexPoints.push(hexPoints[0]); // Close the shape
+        hexPoints.push(hexPoints[0]);
 
         const hexGeometry = new THREE.BufferGeometry().setFromPoints(hexPoints);
         const hexMaterial = new THREE.LineBasicMaterial({
@@ -1113,7 +1111,6 @@
         const hexFrame = new THREE.Line(hexGeometry, hexMaterial);
         quoteFrameGroup.add(hexFrame);
 
-        // Corner markers
         for (let i = 0; i < 6; i++) {
             const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
             const cornerGeo = new THREE.BoxGeometry(0.15, 0.15, 0.15);
@@ -1131,7 +1128,6 @@
             quoteFrameGroup.add(corner);
         }
 
-        // Orbiting particles
         const quoteParticles = [];
         for (let i = 0; i < 20; i++) {
             const particleGeo = new THREE.SphereGeometry(0.05, 4, 4);
@@ -1157,10 +1153,8 @@
         let quoteHologramActive = false;
         let quoteHologramTime = 0;
 
-        // Create subtle background geometric shapes (reduced prominence)
         const shapes = [];
 
-        // Reduce number of shapes on mobile
         if (!isMobile) {
             const geometries = [
                 new THREE.IcosahedronGeometry(1.5, 0),
@@ -1172,7 +1166,7 @@
                 color: 0x00ffff,
                 wireframe: true,
                 transparent: true,
-                opacity: 0.04  // Much more subtle
+                opacity: 0.04
             });
 
             geometries.forEach((geo, i) => {
@@ -1185,13 +1179,11 @@
 
         let mouseX = 0, mouseY = 0;
 
-        // Mouse movement for desktop
         window.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX / window.innerWidth) * 2 - 1;
             mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
         });
 
-        // Touch movement for mobile
         window.addEventListener('touchmove', (e) => {
             if (e.touches.length > 0) {
                 mouseX = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
@@ -1199,21 +1191,17 @@
             }
         });
 
-        // Reduce camera parallax on mobile
         const parallaxFactor = isMobile ? 0.015 : 0.03;
 
-        // Animation loop
         let time = 0;
         function animate() {
             requestAnimationFrame(animate);
             time += 0.01;
 
-            // Animate dodecagon logo (holographic rotation)
             dodecagonLogo.rotation.z += 0.002;
             dodecagonLogo.rotation.x = Math.sin(time * 0.3) * 0.1;
             dodecagonLogo.rotation.y = Math.cos(time * 0.2) * 0.1;
 
-            // Pulsing glow effect
             const pulse = Math.sin(time * 2) * 0.15 + 0.3;
             dodecagonLogo.children.forEach(child => {
                 if (child.material) {
@@ -1221,39 +1209,32 @@
                 }
             });
 
-            // Animate background shapes (subtle)
             shapes.forEach((shape, i) => {
                 shape.rotation.x += 0.002 + i * 0.0005;
                 shape.rotation.y += 0.003 + i * 0.0005;
                 shape.rotation.z += 0.001;
             });
 
-            // Camera movement based on mouse (reduced on mobile)
             camera.position.x += (mouseX * 1 - camera.position.x) * parallaxFactor;
             camera.position.y += (mouseY * 1 - camera.position.y) * parallaxFactor;
             camera.lookAt(scene.position);
 
             renderer.render(scene, camera);
 
-            // Animate quote hologram if active
             if (quoteHologramActive) {
                 quoteHologramTime += 0.05;
 
-                // Rotate frame
                 quoteFrameGroup.rotation.z += 0.01;
 
-                // Pulse frame opacity
                 const framePulse = Math.sin(quoteHologramTime * 2) * 0.3 + 0.6;
                 hexFrame.material.opacity = framePulse;
 
-                // Animate particles
                 quoteParticles.forEach((particle, i) => {
                     const angle = particle.userData.angle + quoteHologramTime * particle.userData.speed;
                     particle.position.x = Math.cos(angle) * particle.userData.radius;
                     particle.position.y = Math.sin(angle) * (particle.userData.radius * 0.5) + particle.userData.yOffset;
                     particle.position.z = Math.sin(quoteHologramTime + i) * 0.5;
 
-                    // Pulse particle opacity
                     particle.material.opacity = Math.sin(quoteHologramTime * 2 + i * 0.5) * 0.4 + 0.5;
                 });
 
@@ -1267,7 +1248,6 @@
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
 
-            // Update orbiting word positions on resize
             const center = getTaglineCenter();
             allWordElements.forEach(wordEl => {
                 wordEl.dataset.centerX = center.x;
@@ -1275,7 +1255,6 @@
             });
         });
 
-        // Clarke Quote Hovering Around Tagline
         const clarkeQuote = "Any sufficiently advanced technology is indistinguishable from magic";
         const words = clarkeQuote.split(' ');
         const container = document.getElementById('floating-quotes');
@@ -1283,7 +1262,6 @@
 
         const allWordElements = [];
 
-        // Get tagline position for orbiting words
         function getTaglineCenter() {
             const tagline = document.getElementById('tagline');
             const rect = tagline.getBoundingClientRect();
@@ -1299,7 +1277,6 @@
                 wordEl.className = 'quote-word';
                 wordEl.textContent = word;
 
-                // Calculate orbit position around tagline
                 const center = getTaglineCenter();
                 const angle = (index / words.length) * Math.PI * 2 + (j * Math.PI / 4);
                 const orbitRadius = isMobile ? 150 : 250;
@@ -1311,11 +1288,9 @@
                 wordEl.style.left = startX + 'px';
                 wordEl.style.top = startY + 'px';
 
-                // Very subtle by default
                 const opacity = 0.03 + Math.random() * 0.02;
                 wordEl.style.opacity = opacity;
 
-                // Store original position for animation
                 wordEl.dataset.centerX = center.x;
                 wordEl.dataset.centerY = center.y;
                 wordEl.dataset.angle = angle;
@@ -1327,7 +1302,6 @@
             }
         });
 
-        // Animate orbiting words
         let orbitTime = 0;
         function animateOrbitingWords() {
             orbitTime += 1;
@@ -1347,10 +1321,8 @@
             });
         }
 
-        // Run orbit animation
         setInterval(animateOrbitingWords, 50);
 
-        // Metal Gear Solid Style Tagline Transformation
         let isTransforming = false;
 
         function transformToQuote() {
@@ -1361,33 +1333,25 @@
             const overlay = document.getElementById('clarke-quote-overlay');
             const hologramCanvas = document.getElementById('quote-hologram');
 
-            // Start transformation
             tagline.classList.add('transforming');
 
-            // Activate hologram
             quoteHologramActive = true;
             quoteHologramTime = 0;
             hologramCanvas.style.opacity = '0';
 
-            // Brief delay for blur effect
             setTimeout(() => {
                 overlay.classList.add('visible');
                 overlay.style.animation = 'alienTextGlitchIn 1.2s forwards';
 
-                // Fade in hologram
                 hologramCanvas.style.transition = 'opacity 0.8s';
                 hologramCanvas.style.opacity = '1';
             }, 300);
 
-            // Hold the quote for 6 seconds
             setTimeout(() => {
-                // Start glitch out
                 overlay.style.animation = 'alienTextGlitchOut 1s forwards';
 
-                // Fade out hologram
                 hologramCanvas.style.opacity = '0';
 
-                // Remove transformation after glitch out
                 setTimeout(() => {
                     tagline.classList.remove('transforming');
                     overlay.classList.remove('visible');
@@ -1398,32 +1362,167 @@
             }, 6000);
         }
 
-        // Schedule random transformations between 30-60 seconds
         function scheduleNextTransformation() {
-            const minDelay = 30000;  // 30 seconds
-            const maxDelay = 60000;  // 60 seconds
+            const minDelay = 30000;
+            const maxDelay = 60000;
             const delay = minDelay + Math.random() * (maxDelay - minDelay);
 
             setTimeout(() => {
                 transformToQuote();
-                scheduleNextTransformation(); // Schedule the next one
+                scheduleNextTransformation();
             }, delay);
         }
 
-        // Start the transformation system after 8 seconds (first one comes sooner)
         setTimeout(() => {
             transformToQuote();
             scheduleNextTransformation();
         }, 8000);
 
-        // Update time display
+        let isPageTransitioning = false;
+        let lastLogoClick = 0;
+        let clickTimeout = null;
+
+        function startPageTransition(onComplete) {
+            if (isPageTransitioning) return;
+            isPageTransitioning = true;
+
+            console.log('🎬 Starting page transition...');
+
+            document.body.classList.add('page-transitioning');
+
+            setTimeout(() => {
+                if (!isTransforming) {
+                    const tagline = document.getElementById('tagline');
+                    const overlay = document.getElementById('clarke-quote-overlay');
+                    const hologramCanvas = document.getElementById('quote-hologram');
+
+                    isTransforming = true;
+
+                    tagline.classList.add('transforming');
+
+                    quoteHologramActive = true;
+                    quoteHologramTime = 0;
+                    hologramCanvas.style.transition = 'opacity 0.4s';
+                    hologramCanvas.style.opacity = '1';
+
+                    setTimeout(() => {
+                        overlay.classList.add('visible');
+                        overlay.style.animation = 'alienTextGlitchIn 0.6s forwards';
+                    }, 100);
+
+                    setTimeout(() => {
+                        overlay.style.animation = 'alienTextGlitchOut 0.4s forwards';
+                        hologramCanvas.style.opacity = '0';
+
+                        setTimeout(() => {
+                            tagline.classList.remove('transforming');
+                            overlay.classList.remove('visible');
+                            overlay.style.animation = '';
+                            isTransforming = false;
+                            quoteHologramActive = false;
+                        }, 400);
+                    }, 800);
+                }
+            }, 400);
+
+            setTimeout(() => {
+                console.log('💀 Elements faded out, ready for new content');
+
+                setTimeout(() => {
+                    glitchInElements();
+                }, 200);
+
+            }, 1600);
+
+            setTimeout(() => {
+                document.body.classList.remove('page-transitioning');
+                isPageTransitioning = false;
+
+                console.log('✅ Page transition complete');
+
+                if (onComplete) onComplete();
+            }, 2000);
+        }
+
+        function glitchInElements() {
+            const elements = [
+                document.querySelector('.features'),
+                document.querySelector('.cta-buttons'),
+                document.querySelector('.stats')
+            ];
+
+            elements.forEach((el, index) => {
+                if (!el) return;
+
+                const variant = Math.floor(Math.random() * 3) + 1;
+
+                el.classList.remove('glitch-in-1', 'glitch-in-2', 'glitch-in-3');
+
+                setTimeout(() => {
+                    el.classList.add(`glitch-in-${variant}`);
+
+                    setTimeout(() => {
+                        el.classList.remove(`glitch-in-${variant}`);
+                        el.style.opacity = '1';
+                        el.style.transform = 'none';
+                        el.style.filter = 'none';
+                    }, 600);
+                }, index * 150);
+            });
+
+            const dimmedElements = [
+                document.querySelector('.logo-container'),
+                document.querySelector('.tagline'),
+                document.querySelector('.footer')
+            ];
+
+            dimmedElements.forEach(el => {
+                if (!el) return;
+                el.style.transition = 'all 0.4s ease-out';
+                el.style.opacity = '1';
+                el.style.filter = 'none';
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 't' || e.key === 'T') {
+                console.log('🎮 Manual transition triggered with T key');
+                startPageTransition(() => {
+                    console.log('🎉 Transition callback executed');
+                });
+            }
+        });
+
+        console.log('%c🎮 PAGE TRANSITION CONTROLS', 'color: #00ffff; font-size: 16px; font-weight: bold;');
+        console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #00ffff;');
+        console.log('%c1. Press "T" key', 'color: #fff; font-size: 14px;', '→ Trigger transition');
+        console.log('%c2. Double-click "10YX" logo', 'color: #fff; font-size: 14px;', '→ Trigger transition');
+        console.log('%c3. Single-click "10YX" logo', 'color: #fff; font-size: 14px;', '→ Toggle target lock');
+        console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #00ffff;');
+
+        setTimeout(() => {
+            const hint = document.getElementById('transition-hint');
+            if (hint) {
+                hint.style.animation = 'hintFadeInOut 4s ease-in-out';
+            }
+        }, 3000);
+
+        const logoContainer = document.getElementById('logo-container');
+        logoContainer.addEventListener('click', () => {
+            const now = Date.now();
+            if (now - lastLogoClick < 500) {
+                console.log('🎮 Manual transition triggered with double-click');
+                startPageTransition();
+            }
+            lastLogoClick = now;
+        });
+
         function updateTime() {
             document.getElementById('current-time').textContent = new Date().toLocaleTimeString();
         }
         setInterval(updateTime, 1000);
         updateTime();
 
-        // Neural activity bars
         function createNeuralBars() {
             const leftBars = document.getElementById('neural-left');
             const rightBars = document.getElementById('neural-right');
@@ -1452,7 +1551,6 @@
         }
         setInterval(updateNeuralActivity, 150);
 
-        // Data packets (reduce on mobile)
         function createDataPacket() {
             const container = document.getElementById('data-packets');
             const packet = document.createElement('div');
@@ -1464,28 +1562,36 @@
             setTimeout(() => packet.remove(), 2000 + Math.random() * 2000);
         }
 
-        // Reduce packet frequency on mobile
         setInterval(createDataPacket, isMobile ? 800 : 400);
 
-        // Target lock toggle (works for both click and touch)
         let targetLocked = false;
-        const logoContainer = document.getElementById('logo-container');
 
         function toggleTargetLock() {
             targetLocked = !targetLocked;
             document.getElementById('target-status').textContent = targetLocked ? 'ENGAGED' : 'SCANNING';
             document.getElementById('init-btn').innerHTML = targetLocked ? '🎯 SYSTEM LOCKED →' : '🎯 INITIALIZE →';
 
-            // Trigger quote transformation when locked
-            if (targetLocked && !isTransforming) {
+            if (targetLocked && !isTransforming && !isPageTransitioning) {
                 transformToQuote();
             }
         }
 
-        logoContainer.addEventListener('click', toggleTargetLock);
+        logoContainer.addEventListener('click', (e) => {
+            const now = Date.now();
+            if (now - lastLogoClick > 500) {
+                toggleTargetLock();
+            }
+        });
+
         logoContainer.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            toggleTargetLock();
+            const now = Date.now();
+            if (now - lastLogoClick < 500) {
+                e.preventDefault();
+                startPageTransition();
+            } else {
+                e.preventDefault();
+                toggleTargetLock();
+            }
         });
         </script>
     </body>
