@@ -36,9 +36,30 @@
     transform: translateY(0);
 }
 
+/* Also support .notice-banner class name (in case JS uses it) */
+.notice-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 26, 0.98);
+    border-top: 2px solid var(--primary-color, #00ffff);
+    padding: 2rem;
+    z-index: 9999;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -8px 32px rgba(0, 255, 255, 0.15);
+}
+
+.notice-banner.active {
+    transform: translateY(0);
+}
+
 /* Holographic corner accents */
 .notice-consent::before,
-.notice-consent::after {
+.notice-consent::after,
+.notice-banner::before,
+.notice-banner::after {
     content: '';
     position: absolute;
     width: 40px;
@@ -47,14 +68,16 @@
     pointer-events: none;
 }
 
-.notice-consent::before {
+.notice-consent::before,
+.notice-banner::before {
     top: 12px;
     left: 12px;
     border-right: none;
     border-bottom: none;
 }
 
-.notice-consent::after {
+.notice-consent::after,
+.notice-banner::after {
     top: 12px;
     right: 12px;
     border-left: none;
@@ -142,17 +165,20 @@
     transform: rotate(90deg);
 }
 
-.notice-cookie-list {
+.notice-cookie-list,
+.notice-list {
     display: none;
     margin-top: 0.75rem;
     padding-left: 1.5rem;
 }
 
-.notice-cookie-list.visible {
+.notice-cookie-list.visible,
+.notice-list.visible {
     display: block;
 }
 
-.notice-cookie-list li {
+.notice-cookie-list li,
+.notice-list li {
     color: var(--text-secondary, #9ca3af);
     font-size: 0.875rem;
     line-height: 1.8;
@@ -160,7 +186,8 @@
     position: relative;
 }
 
-.notice-cookie-list li::before {
+.notice-cookie-list li::before,
+.notice-list li::before {
     content: '◆';
     position: absolute;
     left: -1.25rem;
@@ -216,6 +243,7 @@
 }
 
 /* Settings link in footer */
+.gdpr-settings-link,
 .settings-link {
     display: inline-flex;
     align-items: center;
@@ -226,12 +254,15 @@
     transition: color 0.3s;
 }
 
+.gdpr-settings-link:hover,
+.gdpr-settings-link:focus,
 .settings-link:hover,
 .settings-link:focus {
     color: var(--primary-color, #00ffff);
     outline: none;
 }
 
+.gdpr-settings-link::before,
 .settings-link::before {
     content: '⚙';
     font-size: 1rem;
@@ -239,22 +270,27 @@
 
 /* Mobile responsive */
 @media (max-width: 768px) {
-    .notice-consent {
+    .notice-consent,
+    .notice-banner {
         padding: 1.5rem 1rem;
     }
 
     .notice-consent::before,
-    .notice-consent::after {
+    .notice-consent::after,
+    .notice-banner::before,
+    .notice-banner::after {
         width: 24px;
         height: 24px;
         top: 8px;
     }
 
-    .notice-consent::before {
+    .notice-consent::before,
+    .notice-banner::before {
         left: 8px;
     }
 
-    .notice-consent::after {
+    .notice-consent::after,
+    .notice-banner::after {
         right: 8px;
     }
 
@@ -287,6 +323,7 @@
 @media (prefers-reduced-motion: reduce) {
     .notice-overlay,
     .notice-consent,
+    .notice-banner,
     .notice-btn,
     .notice-toggle::before {
         transition: none;
@@ -295,7 +332,8 @@
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
-    .notice-consent {
+    .notice-consent,
+    .notice-banner {
         border-top-width: 3px;
     }
 
