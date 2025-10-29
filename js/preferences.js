@@ -1,7 +1,7 @@
 /**
- * GDPR Cookie Consent Manager
+ * Privacy Preferences Manager (Renamed from GDPR Consent)
  * Self-contained, zero dependencies
- * Complies with GDPR requirements for Estonian companies
+ * Renamed to avoid browser blocking
  */
 
 (function() {
@@ -9,32 +9,60 @@
 
     // Configuration
     const CONFIG = {
-        CONSENT_KEY: '10yx_cookie_consent',
+        CONSENT_KEY: '10yx_preferences', // Renamed from cookie_consent
         GA_ID: 'G-1MN5PX6T1T',
         CONSENT_EXPIRY_DAYS: 365
     };
 
     // Consent state
     let consentGiven = null;
+    let blockersDetected = false;
 
     /**
      * Initialize the consent system
      */
     function init() {
+        // Detect if blockers are interfering
+        detectBlockers();
+
         // Check for existing consent
         consentGiven = getStoredConsent();
 
-        if (consentGiven === null) {
-            // No consent stored - show banner
+        if (consentGiven === null && !blockersDetected) {
+            // No consent stored and no blockers - show banner
             showConsentBanner();
         } else if (consentGiven === true) {
             // Consent given - load analytics
             loadGoogleAnalytics();
         }
-        // If consentGiven === false, do nothing (user rejected)
+        // If consentGiven === false OR blockersDetected, do nothing (no tracking)
 
-        // Set up revoke consent link
+        // Set up revoke link
         setupRevokeLink();
+    }
+
+    /**
+     * Detect if privacy blockers are preventing our script
+     */
+    function detectBlockers() {
+        try {
+            // Test if localStorage is accessible
+            const testKey = '__10yx_test__';
+            localStorage.setItem(testKey, '1');
+            localStorage.removeItem(testKey);
+            blockersDetected = false;
+        } catch (e) {
+            // localStorage blocked or restricted
+            blockersDetected = true;
+            console.log('Privacy tools detected - respecting user preference (no tracking)');
+        }
+
+        // Additional check: if this script loaded but GA won't
+        // (Some blockers allow our script but block GA)
+        if (!blockersDetected) {
+            // Check if common GA domains are blocked
+            // We'll detect this later when trying to load GA
+        }
     }
 
     /**
@@ -42,6 +70,11 @@
      * @returns {boolean|null} true = accepted, false = rejected, null = not set
      */
     function getStoredConsent() {
+        if (blockersDetected) {
+            // If blockers detected, treat as implicit rejection
+            return false;
+        }
+
         try {
             const stored = localStorage.getItem(CONFIG.CONSENT_KEY);
             if (stored === null) return null;
@@ -57,8 +90,9 @@
 
             return data.consent === true;
         } catch (e) {
-            console.warn('Failed to read consent from localStorage:', e);
-            return null;
+            console.warn('Could not read preferences:', e);
+            // If we can't read, assume no consent
+            return false;
         }
     }
 
@@ -67,6 +101,11 @@
      * @param {boolean} accepted - true if user accepted, false if rejected
      */
     function storeConsent(accepted) {
+        if (blockersDetected) {
+            console.log('Cannot store preference - privacy tools active');
+            return;
+        }
+
         try {
             const expiry = new Date();
             expiry.setDate(expiry.getDate() + CONFIG.CONSENT_EXPIRY_DAYS);
@@ -79,7 +118,7 @@
 
             localStorage.setItem(CONFIG.CONSENT_KEY, JSON.stringify(data));
         } catch (e) {
-            console.warn('Failed to store consent in localStorage:', e);
+            console.warn('Could not store preference:', e);
         }
     }
 
@@ -89,7 +128,7 @@
     function loadGoogleAnalytics() {
         // Prevent double-loading
         if (window.gtag) {
-            console.log('Google Analytics already loaded');
+            console.log('Analytics already loaded');
             return;
         }
 
@@ -106,15 +145,17 @@
 
             gtag('js', new Date());
             gtag('config', CONFIG.GA_ID, {
-                'anonymize_ip': true, // GDPR best practice
+                'anonymize_ip': true,
                 'cookie_flags': 'SameSite=None;Secure'
             });
 
-            console.log('Google Analytics loaded with consent');
+            console.log('Analytics loaded with user consent');
         };
 
         script.onerror = function() {
-            console.error('Failed to load Google Analytics');
+            console.log('Analytics blocked by browser - respecting user preference');
+            // This is fine - user's browser/extension is blocking tracking
+            // We respect this choice
         };
 
         document.head.appendChild(script);
@@ -124,33 +165,32 @@
      * Show the consent banner
      */
     function showConsentBanner() {
-        // Create banner HTML
+        // Create banner HTML (renamed classes to avoid blocking)
         const bannerHTML = `
-            <div class="gdpr-overlay" id="gdpr-overlay" role="dialog" aria-modal="true" aria-labelledby="gdpr-heading"></div>
-            <div class="gdpr-consent" id="gdpr-consent" role="dialog" aria-labelledby="gdpr-heading" aria-describedby="gdpr-description">
-                <div class="gdpr-content">
-                    <div class="gdpr-text">
-                        <h3 id="gdpr-heading">🍪 Cookie Consent</h3>
-                        <p id="gdpr-description">
-                            We use cookies to analyze site traffic and improve your experience.
-                            By accepting, you consent to our use of analytics cookies.
+            <div class="notice-overlay" id="notice-overlay" role="dialog" aria-modal="true" aria-labelledby="notice-heading"></div>
+            <div class="notice-banner" id="notice-banner" role="dialog" aria-labelledby="notice-heading" aria-describedby="notice-description">
+                <div class="notice-content">
+                    <div class="notice-text">
+                        <h3 id="notice-heading">⚙️ Privacy Preferences</h3>
+                        <p id="notice-description">
+                            We use analytics tools to improve your experience and understand how our site is used.
                             Read our <a href="/privacy.html">Privacy Policy</a> for details.
                         </p>
-                        <div class="gdpr-details">
-                            <button class="gdpr-toggle" id="gdpr-toggle" aria-expanded="false" aria-controls="gdpr-cookie-list">
-                                What cookies do we use?
+                        <div class="notice-details">
+                            <button class="notice-toggle" id="notice-toggle" aria-expanded="false" aria-controls="notice-list">
+                                What data do we collect?
                             </button>
-                            <ul class="gdpr-cookie-list" id="gdpr-cookie-list">
-                                <li><strong>Google Analytics:</strong> Tracks page views, sessions, and user behavior to help us improve the website.</li>
-                                <li><strong>Consent Cookie:</strong> Stores your cookie preference (essential, always active).</li>
+                            <ul class="notice-list" id="notice-list">
+                                <li><strong>Google Analytics:</strong> Tracks page views, sessions, and usage patterns to help us improve the website.</li>
+                                <li><strong>Preference Storage:</strong> Stores your privacy choice locally (essential, always active).</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="gdpr-actions">
-                        <button class="gdpr-btn gdpr-btn-accept" id="gdpr-accept">
+                    <div class="notice-actions">
+                        <button class="notice-btn notice-btn-accept" id="notice-accept">
                             Accept
                         </button>
-                        <button class="gdpr-btn gdpr-btn-reject" id="gdpr-reject">
+                        <button class="notice-btn notice-btn-reject" id="notice-reject">
                             Reject
                         </button>
                     </div>
@@ -162,12 +202,12 @@
         document.body.insertAdjacentHTML('beforeend', bannerHTML);
 
         // Get elements
-        const overlay = document.getElementById('gdpr-overlay');
-        const banner = document.getElementById('gdpr-consent');
-        const acceptBtn = document.getElementById('gdpr-accept');
-        const rejectBtn = document.getElementById('gdpr-reject');
-        const toggle = document.getElementById('gdpr-toggle');
-        const cookieList = document.getElementById('gdpr-cookie-list');
+        const overlay = document.getElementById('notice-overlay');
+        const banner = document.getElementById('notice-banner');
+        const acceptBtn = document.getElementById('notice-accept');
+        const rejectBtn = document.getElementById('notice-reject');
+        const toggle = document.getElementById('notice-toggle');
+        const noticeList = document.getElementById('notice-list');
 
         // Show banner with animation
         requestAnimationFrame(() => {
@@ -175,13 +215,13 @@
             banner.classList.add('active');
         });
 
-        // Focus management for accessibility
+        // Focus management
         acceptBtn.focus();
 
         // Event listeners
         acceptBtn.addEventListener('click', () => handleAccept(overlay, banner));
         rejectBtn.addEventListener('click', () => handleReject(overlay, banner));
-        toggle.addEventListener('click', () => toggleCookieDetails(toggle, cookieList));
+        toggle.addEventListener('click', () => toggleDetails(toggle, noticeList));
 
         // Keyboard navigation
         banner.addEventListener('keydown', (e) => {
@@ -190,7 +230,7 @@
             }
         });
 
-        // Trap focus within banner (accessibility)
+        // Trap focus
         trapFocus(banner);
     }
 
@@ -202,9 +242,7 @@
         storeConsent(true);
         hideConsentBanner(overlay, banner);
         loadGoogleAnalytics();
-
-        // Announce to screen readers
-        announceToScreenReader('Cookie consent accepted. Google Analytics enabled.');
+        announceToScreenReader('Privacy preferences saved. Analytics enabled.');
     }
 
     /**
@@ -214,9 +252,7 @@
         consentGiven = false;
         storeConsent(false);
         hideConsentBanner(overlay, banner);
-
-        // Announce to screen readers
-        announceToScreenReader('Cookie consent rejected. Analytics disabled.');
+        announceToScreenReader('Privacy preferences saved. Analytics disabled.');
     }
 
     /**
@@ -226,7 +262,6 @@
         overlay.classList.remove('active');
         banner.classList.remove('active');
 
-        // Remove from DOM after animation
         setTimeout(() => {
             overlay.remove();
             banner.remove();
@@ -234,31 +269,29 @@
     }
 
     /**
-     * Toggle cookie details visibility
+     * Toggle details visibility
      */
-    function toggleCookieDetails(toggle, cookieList) {
+    function toggleDetails(toggle, list) {
         const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-
         toggle.setAttribute('aria-expanded', !isExpanded);
         toggle.classList.toggle('expanded');
-        cookieList.classList.toggle('visible');
+        list.classList.toggle('visible');
     }
 
     /**
-     * Set up revoke consent link in footer
+     * Set up revoke link in footer
      */
     function setupRevokeLink() {
         const footers = document.querySelectorAll('.footer-links');
 
         footers.forEach(footer => {
-            // Check if link already exists
-            if (footer.querySelector('.gdpr-settings-link')) return;
+            if (footer.querySelector('.settings-link')) return;
 
             const link = document.createElement('a');
             link.href = '#';
-            link.className = 'gdpr-settings-link';
-            link.textContent = 'Cookie Settings';
-            link.setAttribute('aria-label', 'Manage cookie consent settings');
+            link.className = 'settings-link';
+            link.textContent = 'Privacy Settings';
+            link.setAttribute('aria-label', 'Manage privacy preferences');
 
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -273,30 +306,24 @@
      * Revoke consent and show banner again
      */
     function revokeConsent() {
-        // Clear stored consent
         try {
             localStorage.removeItem(CONFIG.CONSENT_KEY);
         } catch (e) {
-            console.warn('Failed to remove consent from localStorage:', e);
+            console.warn('Could not remove preference:', e);
         }
 
         consentGiven = null;
 
-        // Remove any existing banner
-        const existingOverlay = document.getElementById('gdpr-overlay');
-        const existingBanner = document.getElementById('gdpr-consent');
+        const existingOverlay = document.getElementById('notice-overlay');
+        const existingBanner = document.getElementById('notice-banner');
         if (existingOverlay) existingOverlay.remove();
         if (existingBanner) existingBanner.remove();
 
-        // Show banner again
         showConsentBanner();
-
-        // Note: GA remains loaded if it was previously loaded
-        // This is acceptable - we just won't load it again on refresh if rejected
     }
 
     /**
-     * Trap focus within an element (accessibility)
+     * Trap focus within element
      */
     function trapFocus(element) {
         const focusableElements = element.querySelectorAll(
@@ -310,13 +337,11 @@
             if (e.key !== 'Tab') return;
 
             if (e.shiftKey) {
-                // Shift + Tab
                 if (document.activeElement === firstFocusable) {
                     lastFocusable.focus();
                     e.preventDefault();
                 }
             } else {
-                // Tab
                 if (document.activeElement === lastFocusable) {
                     firstFocusable.focus();
                     e.preventDefault();
@@ -326,7 +351,7 @@
     }
 
     /**
-     * Announce message to screen readers
+     * Announce to screen readers
      */
     function announceToScreenReader(message) {
         const announcement = document.createElement('div');
@@ -355,11 +380,12 @@
         init();
     }
 
-    // Export for console testing (optional)
-    window.GDPRConsent = {
+    // Export for console testing
+    window.PrivacyPreferences = {
         revoke: revokeConsent,
         getStatus: () => consentGiven,
-        forceShow: showConsentBanner
+        forceShow: showConsentBanner,
+        blockersDetected: () => blockersDetected
     };
 
 })();

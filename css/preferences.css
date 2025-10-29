@@ -1,0 +1,309 @@
+/* GDPR Cookie Consent Banner Styles */
+
+/* Overlay backdrop */
+.notice-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.notice-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Main consent banner */
+.notice-consent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 26, 0.98);
+    border-top: 2px solid var(--primary-color, #00ffff);
+    padding: 2rem;
+    z-index: 9999;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -8px 32px rgba(0, 255, 255, 0.15);
+}
+
+.notice-consent.active {
+    transform: translateY(0);
+}
+
+/* Holographic corner accents */
+.notice-consent::before,
+.notice-consent::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(0, 255, 255, 0.4);
+    pointer-events: none;
+}
+
+.notice-consent::before {
+    top: 12px;
+    left: 12px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.notice-consent::after {
+    top: 12px;
+    right: 12px;
+    border-left: none;
+    border-bottom: none;
+}
+
+/* Content container */
+.notice-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Text section */
+.notice-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.notice-text h3 {
+    color: var(--primary-color, #00ffff);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.notice-text p {
+    color: var(--text-secondary, #9ca3af);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 0.75rem 0;
+}
+
+.notice-text a {
+    color: var(--primary-color, #00ffff);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.notice-text a:hover,
+.notice-text a:focus {
+    border-bottom-color: var(--primary-color, #00ffff);
+    outline: none;
+}
+
+/* Cookie details (collapsed by default) */
+.notice-details {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.notice-toggle {
+    background: transparent;
+    border: none;
+    color: var(--primary-color, #00ffff);
+    font-size: 0.875rem;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    transition: opacity 0.2s;
+}
+
+.notice-toggle:hover,
+.notice-toggle:focus {
+    opacity: 0.7;
+    outline: 2px solid var(--primary-color, #00ffff);
+    outline-offset: 2px;
+}
+
+.notice-toggle::before {
+    content: '▸ ';
+    display: inline-block;
+    transition: transform 0.2s;
+}
+
+.notice-toggle.expanded::before {
+    transform: rotate(90deg);
+}
+
+.notice-cookie-list {
+    display: none;
+    margin-top: 0.75rem;
+    padding-left: 1.5rem;
+}
+
+.notice-cookie-list.visible {
+    display: block;
+}
+
+.notice-cookie-list li {
+    color: var(--text-secondary, #9ca3af);
+    font-size: 0.875rem;
+    line-height: 1.8;
+    list-style: none;
+    position: relative;
+}
+
+.notice-cookie-list li::before {
+    content: '◆';
+    position: absolute;
+    left: -1.25rem;
+    color: var(--primary-color, #00ffff);
+    font-size: 0.7rem;
+}
+
+/* Buttons section */
+.notice-actions {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.notice-btn {
+    padding: 0.875rem 1.75rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.notice-btn:focus {
+    outline: 2px solid var(--primary-color, #00ffff);
+    outline-offset: 2px;
+}
+
+.notice-btn-accept {
+    background: linear-gradient(135deg, var(--primary-color, #00ffff) 0%, var(--secondary-color, #3b82f6) 100%);
+    color: #000;
+    box-shadow: 0 4px 12px rgba(0, 255, 255, 0.3);
+}
+
+.notice-btn-accept:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+}
+
+.notice-btn-reject {
+    background: transparent;
+    border: 2px solid var(--primary-color, #00ffff);
+    color: var(--primary-color, #00ffff);
+}
+
+.notice-btn-reject:hover {
+    background: rgba(0, 255, 255, 0.1);
+}
+
+/* Settings link in footer */
+.settings-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary, #9ca3af);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.3s;
+}
+
+.settings-link:hover,
+.settings-link:focus {
+    color: var(--primary-color, #00ffff);
+    outline: none;
+}
+
+.settings-link::before {
+    content: '⚙';
+    font-size: 1rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .notice-consent {
+        padding: 1.5rem 1rem;
+    }
+
+    .notice-consent::before,
+    .notice-consent::after {
+        width: 24px;
+        height: 24px;
+        top: 8px;
+    }
+
+    .notice-consent::before {
+        left: 8px;
+    }
+
+    .notice-consent::after {
+        right: 8px;
+    }
+
+    .notice-content {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+
+    .notice-text h3 {
+        font-size: 1.1rem;
+    }
+
+    .notice-text p {
+        font-size: 0.875rem;
+    }
+
+    .notice-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .notice-btn {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .notice-overlay,
+    .notice-consent,
+    .notice-btn,
+    .notice-toggle::before {
+        transition: none;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .notice-consent {
+        border-top-width: 3px;
+    }
+
+    .notice-btn-accept {
+        border: 2px solid #000;
+    }
+
+    .notice-btn-reject {
+        border-width: 3px;
+    }
+}
