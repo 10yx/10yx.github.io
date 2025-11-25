@@ -1,13 +1,13 @@
 ---
-title: Counterr Privacy Policy
+title: countd Privacy Policy
 date: 2025-11-25
 layout: page
 eleventyNavigation:
-  key: counterr-privacy
-  parent: counterr
+  key: countd-privacy
+  parent: countd
 seo:
-  title: Counterr Privacy Policy
-  description: Privacy policy for the Counterr iOS app - we collect no data, everything stays on your device.
+  title: countd Privacy Policy
+  description: Privacy policy for the countd iOS app - we collect no data, everything stays on your device.
   image:
 ---
 
@@ -15,11 +15,11 @@ Last updated: November 25, 2025
 
 ## Privacy by Design
 
-Counterr is designed with privacy as a core principle. We believe a counter app should be simple, fast, and completely private.
+countd is designed with privacy as a core principle. We believe a counter app should be simple, fast, and completely private.
 
 ## Data Collection: None
 
-**Counterr collects zero data.** Everything you count stays on your device.
+**countd collects zero data.** Everything you count stays on your device.
 
 We do not:
 - Collect any personal information
@@ -38,14 +38,14 @@ Your counter state (count value, settings, increment value) is stored locally on
 
 ## Network Access: None
 
-Counterr operates entirely offline and makes **no network requests** whatsoever. The app:
+countd operates entirely offline and makes **no network requests** whatsoever. The app:
 - Does not connect to the internet
 - Does not communicate with external servers
 - Does not share data with other apps or services
 
 ## Third-Party Services: None
 
-Counterr does not integrate with any third-party services:
+countd does not integrate with any third-party services:
 - No analytics platforms
 - No crash reporting services
 - No advertising networks
@@ -53,7 +53,7 @@ Counterr does not integrate with any third-party services:
 
 ## Technical Details
 
-For transparency, here's what iOS APIs Counterr uses:
+For transparency, here's what iOS APIs countd uses:
 - **UserDefaults**: Stores your counter data locally on your device
 - **File Timestamp APIs**: Used by iOS system for standard app operations
 
@@ -78,7 +78,7 @@ If we ever change our privacy practices (which would require a fundamental redes
 
 ## Contact
 
-If you have questions about privacy in Counterr:
+If you have questions about privacy in countd:
 
 **10yx OÜ**
 Sakala tn 7-2, Kesklinna linnaosa
@@ -90,4 +90,4 @@ Web: https://www.10yx.co/contact/
 
 ---
 
-*Counterr is developed by 10yx OÜ. For our company's general privacy policy covering other products and services, see [https://www.10yx.co/privacy_policy/](https://www.10yx.co/privacy_policy/).*
+*countd is developed by 10yx OÜ. For our company's general privacy policy covering other products and services, see [https://www.10yx.co/privacy_policy/](https://www.10yx.co/privacy_policy/).*
