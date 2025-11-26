@@ -2,9 +2,6 @@
 title: countd Privacy Policy
 date: 2025-11-25
 layout: page
-eleventyNavigation:
-  key: countd-privacy
-  parent: countd
 seo:
   title: countd Privacy Policy
   description: Privacy policy for the countd iOS app - we collect no data, everything stays on your device.
